@@ -1,0 +1,22 @@
+[
+{"name":"Organic Honey Jar","image":"https://cdn.dummyjson.com/product-images/groceries/honey-jar/thumbnail.webp","description":"Pure natural honey in a glass jar","price":"12","ownerId":"1"},
+{"name":"Almond Milk","image":"https://cdn.dummyjson.com/product-images/groceries/almond-milk/thumbnail.webp","description":"Lactose-free almond milk","price":"5","ownerId":"2"},
+{"name":"Olive Oil","image":"https://cdn.dummyjson.com/product-images/groceries/olive-oil/thumbnail.webp","description":"Extra virgin olive oil 500ml","price":"10","ownerId":"3"},
+{"name":"Brown Bread","image":"https://cdn.dummyjson.com/product-images/groceries/brown-bread/thumbnail.webp","description":"Whole wheat brown bread loaf","price":"3","ownerId":"1"},
+{"name":"Peanut Butter","image":"https://cdn.dummyjson.com/product-images/groceries/peanut-butter/thumbnail.webp","description":"Smooth peanut butter spread","price":"6","ownerId":"2"},
+{"name":"Tomato Ketchup","image":"https://cdn.dummyjson.com/product-images/groceries/tomato-ketchup/thumbnail.webp","description":"Classic tomato ketchup bottle","price":"4","ownerId":"3"},
+{"name":"Pasta Pack","image":"https://cdn.dummyjson.com/product-images/groceries/pasta/thumbnail.webp","description":"Italian dry pasta pack","price":"8","ownerId":"1"},
+{"name":"Rice Bag","image":"https://cdn.dummyjson.com/product-images/groceries/rice/thumbnail.webp","description":"5kg long grain rice bag","price":"20","ownerId":"2"},
+{"name":"Green Tea","image":"https://cdn.dummyjson.com/product-images/groceries/green-tea/thumbnail.webp","description":"Refreshing green tea bags","price":"7","ownerId":"3"},
+{"name":"Coffee Beans","image":"https://cdn.dummyjson.com/product-images/groceries/coffee-beans/thumbnail.webp","description":"Premium roasted coffee beans","price":"15","ownerId":"1"},
+{"name":"Cheddar Cheese","image":"https://cdn.dummyjson.com/product-images/groceries/cheddar-cheese/thumbnail.webp","description":"Sharp cheddar cheese block","price":"9","ownerId":"2"},
+{"name":"Butter Pack","image":"https://cdn.dummyjson.com/product-images/groceries/butter/thumbnail.webp","description":"Salted butter pack 200g","price":"4","ownerId":"3"},
+{"name":"Eggs Pack","image":"https://cdn.dummyjson.com/product-images/groceries/eggs/thumbnail.webp","description":"Pack of 12 organic eggs","price":"6","ownerId":"1"},
+{"name":"Yogurt Cup","image":"https://cdn.dummyjson.com/product-images/groceries/yogurt/thumbnail.webp","description":"Plain Greek yogurt cup","price":"3","ownerId":"2"},
+{"name":"Orange Juice","image":"https://cdn.dummyjson.com/product-images/groceries/orange-juice/thumbnail.webp","description":"Fresh orange juice 1L","price":"5","ownerId":"3"},
+{"name":"Chocolate Bar","image":"https://cdn.dummyjson.com/product-images/groceries/chocolate-bar/thumbnail.webp","description":"Dark chocolate bar 70%","price":"2","ownerId":"1"},
+{"name":"Cereal Box","image":"https://cdn.dummyjson.com/product-images/groceries/cereal/thumbnail.webp","description":"Whole grain cereal box","price":"6","ownerId":"2"},
+{"name":"Potato Chips","image":"https://cdn.dummyjson.com/product-images/groceries/potato-chips/thumbnail.webp","description":"Crispy salted potato chips","price":"3","ownerId":"3"},
+{"name":"Canned Beans","image":"https://cdn.dummyjson.com/product-images/groceries/canned-beans/thumbnail.webp","description":"Canned baked beans","price":"2","ownerId":"1"},
+{"name":"Mineral Water","image":"https://cdn.dummyjson.com/product-images/groceries/mineral-water/thumbnail.webp","description":"Pack of 6 mineral water bottles","price":"5","ownerId":"2"}
+]

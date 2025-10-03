@@ -31,40 +31,26 @@ model Product {
 model CartItem {
   id        Int     @id @default(autoincrement())
   productId Int
-  cartId    Int
+  buyerId   Int
   quantity  Int
   product   Product @relation(fields: [productId], references: [id])
-  cart      Cart    @relation(fields: [cartId], references: [id])
-}
-
-model Cart {
-  id        Int        @id @default(autoincrement())
-  buyerId   Int
-  cart      Buyer      @relation(fields: [buyerId], references: [id])
-  cartItem  CartItem[]
-  createdAt DateTime   @default(now())
+  buyer     Buyer   @relation(fields: [buyerId], references: [id])
+  @@unique([buyerId, productId])
 }
 
 model OrderItem {
   id        Int     @id @default(autoincrement())
-  orderId   Int
+  buyerId   Int
   productId Int
+  quantity  Int
   product   Product @relation(fields: [productId], references: [id])
-  order     Order   @relation(fields: [orderId], references: [id])
-}
-
-model Order {
-  id         Int         @id @default(autoincrement())
-  buyerId    Int
-  orderItems OrderItem[]
-  buyer      Buyer       @relation(fields: [buyerId], references: [id])
-  createdAt  DateTime    @default(now())
+  buyer     Buyer   @relation(fields: [buyerId], references: [id])
 }
 
 model Buyer {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
-  cart  Cart[]
-  order Order[]
+  id         Int         @id @default(autoincrement())
+  name       String
+  email      String      @unique
+  cartItem   CartItem[]
+  orderItems OrderItem[]
 }
