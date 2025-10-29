@@ -11,6 +11,7 @@ model Seller {
   id       Int       @id @default(autoincrement())
   email    String    @unique
   name     String
+  password String    @default("pending")
   products Product[]
 }
 
@@ -35,6 +36,7 @@ model CartItem {
   quantity  Int
   product   Product @relation(fields: [productId], references: [id])
   buyer     Buyer   @relation(fields: [buyerId], references: [id])
+
   @@unique([buyerId, productId])
 }
 
@@ -51,6 +53,7 @@ model Buyer {
   id         Int         @id @default(autoincrement())
   name       String
   email      String      @unique
+  password   String      @default("pending")
   cartItem   CartItem[]
   orderItems OrderItem[]
 }

@@ -1,3 +1,4 @@
+import { verifyToken } from "../../middleware/userRoutes.js";
 import {
   addCartProduct,
   deleteCartProduct,
@@ -7,9 +8,9 @@ import {
 import express from "express";
 const cartRouter = express.Router();
 
-cartRouter.post("/", addCartProduct);
-cartRouter.get("/:buyerId", getCartProducts);
-cartRouter.put("/:buyerId/:productId", updateCartProduct);
-cartRouter.delete("/:cartPdtId", deleteCartProduct);
+cartRouter.post("/", verifyToken, addCartProduct);
+cartRouter.get("/:buyerId", verifyToken, getCartProducts);
+cartRouter.put("/:buyerId/:productId", verifyToken, updateCartProduct);
+cartRouter.delete("/:cartPdtId", verifyToken, deleteCartProduct);
 
 export default cartRouter;
