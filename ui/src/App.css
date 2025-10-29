@@ -1,13 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-body{
-  background-color: #45433e;
+body {
+  background-color: #1f1e1d;
 }
-button{
+button {
   cursor: pointer;
 }
-.active{
+.active {
   color: #54e827;
 }
 @custom-variant dark (&:is(.dark *));
