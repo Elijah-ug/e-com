@@ -38,7 +38,7 @@ export const loginBuyer = async (req, res) => {
     // jwt token
     const token = jwt.sign({ id: buyer.id, email: buyer.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
     // TODO: issue JWT here later || hashing passwords on reg etc
-    res.status(200).json({ user: buyer, message: "Login successful", token });
+    res.status(200).json({ user: buyer, message: "Login successful", accessToken: token });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -56,7 +56,14 @@ export const getCustomers = async (req, res) => {
 
 export const getCustomer = async (req, res) => {
   try {
-    return res.status(200).json({ message: "route connected" });
+    const userId = req.user.id;
+    const user = await prisma.buyer.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    const { password, ...safeUser } = user;
+    return res.status(200).json({ message: "User's data fetched", data: safeUser });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

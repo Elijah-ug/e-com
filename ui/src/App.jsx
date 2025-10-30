@@ -5,6 +5,7 @@ import {Home} from "./ui-component/home/Home"
 import {Profile} from "./ui-component/profile/Profile"
 import {Routes, Route} from "react-router-dom"
 import {ProductDetails} from "@/ui-component/products/ProductDetails"
+import {Footer} from "./ui-component/footer/Footer";
 
 export const App = ()=>{
 
@@ -21,6 +22,7 @@ export const App = ()=>{
          </Routes>
          </div>
       </div>
+      <Footer/>
     </div>
     )
 }

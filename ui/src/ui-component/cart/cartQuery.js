@@ -2,7 +2,19 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const cartQuery = createApi({
   reducerPath: "cartProducts",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_CART_PRODUCTS_ENDPOINT }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_CART_PRODUCTS_ENDPOINT,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("token");
+      console.log("TOKEN from localStorage to backend==>", token);
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      console.log("Headers==>", headers);
+      return headers;
+    },
+  }),
+
   endpoints: (build) => ({
     // get cart products
     getCartProducts: build.query({

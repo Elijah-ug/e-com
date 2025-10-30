@@ -22,7 +22,6 @@ export const AvailableProducts = () => {
     isLoading: searchPending,
   } = useSearchProductQuery(triggerSearch, { skip: !triggerSearch });
 
-  
   // console.log("Add to cart==>", addToCart);
 
   const handleSearch = (event) => {
@@ -40,8 +39,7 @@ export const AvailableProducts = () => {
     console.log("searchTerm ==>", searchedProduct);
   }, [searchedProduct]);
   console.log("searchedProduct ==>", searchedProduct);
-
-  
+  console.log("Token from localStorage==>", localStorage.getItem("token"));
 
   return (
     <div className="">
@@ -66,23 +64,23 @@ export const AvailableProducts = () => {
       </form>
 
       {isLoading ? (
-        <p className="text-center">Loading...</p>
+        <p className="flex items-center justify-center text-white text-xl">Loading...</p>
       ) : error ? (
-        <p className="text-center">{error?.message}</p>
-      ) : products || searchedProduct ? (
+        <p className="flex items-center justify-center text-red-400 text-xl">{error?.message}</p>
+      ) : products?.length > 0 || searchedProduct?.length > 0 ? (
         <div>
           {searchedProduct ? (
             <SearchedProducts searchedProduct={searchedProduct} />
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 bg-gray-400 p-5">
               {products.map((product) => (
-                <AvailableProduct product={product}/>
+                <AvailableProduct key={product.id} product={product} />
               ))}
             </div>
           )}
         </div>
       ) : (
-        <p> Nothing to show </p>
+        <p className="flex items-center justify-center text-white text-xl"> Nothing to show </p>
       )}
     </div>
   );

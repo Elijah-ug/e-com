@@ -22,10 +22,7 @@ export const AvailableProduct = ({ product }) => {
   };
   return (
     <div>
-      <Card
-        key={product.id}
-        className="w-full h-full max-w-sm transform-all duration-300 hover:scale-102 ease-in-out bg-gray-500 border-none text-white rounded-sm"
-      >
+      <Card className="w-full h-full max-w-sm transform-all duration-300 hover:scale-102 ease-in-out bg-gray-500 border-none text-white rounded-sm">
         <CardContent>
           <div className="text-center overflow-hidden">
             <div className="">

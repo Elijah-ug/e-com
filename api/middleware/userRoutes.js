@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader || authHeader.startsWith("Bearer ")) return res.status(403).json({ Error: "Access Denied" });
+
+  console.log("authHeader==>", authHeader);
+  console.log("req is ==>", req.headers);
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return res.status(403).json({ Error: "Access Denied" });
   const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

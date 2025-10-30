@@ -2,11 +2,26 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userQuery = createApi({
   reducerPath: "user",
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BUYER_ENDPOINT }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: import.meta.env.VITE_BUYER_ENDPOINT,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+
   endpoints: (build) => ({
     // get user profile
-    userProfiles: build.query({  
-      query: () => "",
+    userProfile: build.query({
+      query: () => ({
+        url: "/customer",
+        method: "GET",
+      }),
+      transformResponse: (res) => res.data,
+
       providesTags: ["Profile"],
     }),
     // add buyer
@@ -21,13 +36,14 @@ export const userQuery = createApi({
 
     // login buyer
     loginBuyer: build.mutation({
-      query: (email) => ({
+      query: (email, accessToken) => ({
         url: "/login",
         method: "POST",
         body: email,
+        headers: accessToken,
       }),
       invalidatesTags: ["Profile"],
     }),
   }),
 });
-export const { useUserProfilesQuery, useAddBuyerMutation, useLoginBuyerMutation } = userQuery;
+export const { useUserProfileQuery, useAddBuyerMutation, useLoginBuyerMutation } = userQuery;
