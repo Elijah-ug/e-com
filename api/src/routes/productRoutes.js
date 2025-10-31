@@ -5,6 +5,7 @@ import { getProducts, addProduct, deleteProduct, updateProduct, searchProducts, 
 
 router.get("/", getProducts);
 router.post("/", addProduct);
+router.post("/login", addProduct);
 router.get("/search", searchProducts);
 router.get("/:product", getProduct);
 router.put("/:product", updateProduct)

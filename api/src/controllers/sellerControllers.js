@@ -1,15 +1,26 @@
+import jwt from "jsonwebtoken";
 import { prisma } from "../../prisma/client.js";
+import bcrypt from "bcrypt";
 
 export const addSeller = async (req, res) => {
   try {
-    const {name, email} = req.body
+    const { name, email, password } = req.body;
+    const isAvailable = await prisma.seller.findUnique({
+      wher: { email },
+    });
+    if (isAvailable) return res.status(400).json({ Error: "User Exists" });
+    const hashedPwd = await bcrypt.hash(password, 10);
+
     const newSeller = await prisma.seller.create({
-        data:{
-            name, email
-        }
-    })
-    console.log("New seller =>", newSeller)
-     return res.status(200).json({data: newSeller, message: "✅ Seller created" });
+      data: {
+        name,
+        email,
+        password: hashedPwd,
+      },
+    });
+
+    console.log("New seller =>", newSeller);
+    return res.status(200).json({ data: newSeller, message: "✅ Seller created" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -18,21 +29,39 @@ export const addSeller = async (req, res) => {
 
 export const getSellers = async (req, res) => {
   try {
-     const sellers = await prisma.seller.findMany()
-     res.status(200).json({data: sellers, message: "✅ Data fetched successifully"});
+    const sellers = await prisma.seller.findMany();
+    res.status(200).json({ data: sellers, message: "✅ Data fetched successifully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 };
 
+const loginSeller = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const isUserAvailable = await prisma.seller.findUnique({
+      wher: { email },
+    });
+    if (!isUserAvailable) return res.status(400).json({ Error: "User Exists" });
+    const isValidPwd = await bcrypt.compare(password, isUserAvailable.password);
+    if (!isValidPwd) return res.status(401).json({ Error: "Invalid Password" });
+    const loginToken = await jwt.sign({ id: isUserAvailable.id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    console.log("loginToken==>", loginToken);
+  } catch (error) {}
+};
+
 export const getSeller = async (req, res) => {
   try {
-    const sellerId = parseInt(req.params.id);
+    const sellerId = req.user.id;
+
     const seller = await prisma.seller.findUnique({
-      where:{id: sellerId}
-    })
-    return res.status(200).json({data: seller, message: "✅ Seller fetched" });
+      where: { id: sellerId },
+    });
+    const { password, ...safeSeller } = seller;
+    return res.status(200).json({ data: safeSeller, message: "✅ Seller fetched" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -41,15 +70,16 @@ export const getSeller = async (req, res) => {
 
 export const updateSeller = async (req, res) => {
   try {
-     const sellerId = parseInt(req.params.id)
-        const {name, email} = req.body;
-        const seller = prisma.seller.update({
-            where:{id: sellerId},
-            data:{
-                name, email
-            }
-        })
-    return res.status(200).json({update: seller, message: "✅ seller updated" });
+    const sellerId = parseInt(req.params.id);
+    const { name, email } = req.body;
+    const seller = prisma.seller.update({
+      where: { id: sellerId },
+      data: {
+        name,
+        email,
+      },
+    });
+    return res.status(200).json({ update: seller, message: "✅ seller updated" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -58,11 +88,11 @@ export const updateSeller = async (req, res) => {
 
 export const deleteSeller = async (req, res) => {
   try {
-    const sellerId = parseInt(req.params.id)
+    const sellerId = parseInt(req.params.id);
     const removed = await prisma.seller.delete({
-      where:{id: sellerId}
-    })
-    return res.status(200).json({data: removed, message: "✅  Seller deleted" });
+      where: { id: sellerId },
+    });
+    return res.status(200).json({ data: removed, message: "✅  Seller deleted" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

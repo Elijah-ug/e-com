@@ -17,9 +17,7 @@ export const addCustomer = async (req, res) => {
       },
     });
     // create a jwt token
-    const token = jwt.sign({ id: customer.id, email: customer.email }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    
     console.log("created customer with token ==>", token);
     return res.status(200).json({ message: "Created User", buyer: customer, token });
   } catch (error) {
