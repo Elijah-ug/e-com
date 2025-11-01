@@ -4,13 +4,26 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { useLoginSellerMutation } from "./sellerQuery";
 
 export const SellerLogin = () => {
   const [userData, setUserData] = useState({ name: "", password: "", email: "" });
   const [isRegistered, setIsRegistered] = useState(false);
-  const handleUserLogin = async () => {
+
+  const [sellerAuth, { isLoading, error }] = useLoginSellerMutation();
+  const handleUserLogin = async (e) => {
+    e.preventDefault();
+
     try {
-    } catch (error) {}
+      console.log("UserData==>", userData);
+      const login = await sellerAuth(userData).unwrap();
+      const token = await login.accessToken;
+      localStorage.setItem("accessToken", token);
+      console.log("Login Seller==>", login, token);
+      return login;
+    } catch (error) {
+      console.log("Error==>", error);
+    }
   };
   return (
     <div>

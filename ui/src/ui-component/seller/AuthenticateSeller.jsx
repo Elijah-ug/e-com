@@ -4,13 +4,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useRegisterSellerMutation } from "./sellerQuery";
 
 export const AuthenticateSeller = () => {
   const [userData, setUserData] = useState({ name: "", password: "", email: "" });
   const [isRegistered, setIsRegistered] = useState(false);
-  const handleUserRegistration = async () => {
+
+  const [registerSeller, { isLoading, error }] = useRegisterSellerMutation();
+  const handleUserRegistration = async (e) => {
+    e.preventDefault();
     try {
-    } catch (error) {}
+      console.log("UserData==>", userData);
+      const register = await registerSeller(userData).unwrap();
+      console.log("Register==>", register);
+      return register;
+    } catch (error) {
+      console.log("Error==>", error);
+    }
   };
   return (
     <div>
