@@ -36,7 +36,7 @@ export const loginBuyer = async (req, res) => {
     // jwt token
     const token = jwt.sign({ id: buyer.id, email: buyer.email }, process.env.JWT_SECRET, { expiresIn: "1d" });
     // TODO: issue JWT here later || hashing passwords on reg etc
-    res.status(200).json({ user: buyer, message: "✅ Login successful", accessToken: token });
+    res.status(200).json({ user: buyer, message: "✅ Login successful", accessToken: token, role: "buyer" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

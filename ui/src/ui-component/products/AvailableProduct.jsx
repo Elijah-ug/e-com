@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, replace } from "react-router-dom";
 import { useAddProductToCartMutation } from "../cart/cartQuery";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa6";
@@ -20,6 +20,10 @@ export const AvailableProduct = ({ product }) => {
       console.log("Error==>", error);
     }
   };
+  const isToBeChanged = product?.image?.startsWith("https://ucarecdn.com/")
+    ? product?.image?.replace("https://ucarecdn.com/", " https://nal5eytndp.ucarecd.net/")
+    : product?.image;
+  console.log("isToBeChanged==>", isToBeChanged);
   return (
     <div>
       <Card className="w-full h-full max-w-sm transform-all duration-300 hover:scale-102 ease-in-out bg-gray-500 border-none text-white rounded-sm">
@@ -30,7 +34,7 @@ export const AvailableProduct = ({ product }) => {
             </div>
             <div className="h-38 w-full flex items-center justify-center overflow-hidden bg-violet-300 rounded-sm">
               <Link to={`/${product.id}`}>
-                <img src={product.image} className="object-contain h-full w-full " alt={product.name} />
+                <img src={isToBeChanged} className="object-contain h-full w-full " alt={product.name} />
               </Link>
             </div>
 
@@ -39,7 +43,7 @@ export const AvailableProduct = ({ product }) => {
             </div>
             <Button onClick={() => handleAddToCart(product.id)} className="w-full bg-blue-400 hover:bg-blue-300">
               <FaPlus />
-              Add To Cart
+              {isLoading ? "Adding to cart..." : "Add To Cart"}
             </Button>
           </div>
         </CardContent>

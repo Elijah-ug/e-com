@@ -12,7 +12,7 @@ export const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="px-3 sm:p-10 min-h-screen">
       <AvailableProducts />
     </div>
   );

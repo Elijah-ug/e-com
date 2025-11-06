@@ -13,8 +13,10 @@ export const App = () => {
   return (
     <div className="">
       <div>
-        <NavBar />
-        <div className="px-3 sm:p-10 py-4">
+        <div className="z-10">
+          <NavBar />
+        </div>
+        <div className=" ">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="profile" element={<Profile />} />

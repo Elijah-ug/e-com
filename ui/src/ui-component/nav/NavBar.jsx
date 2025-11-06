@@ -13,7 +13,7 @@ export const NavBar = () => {
 
   console.log("total cart items==>", cartLeng);
   return (
-    <div className="flex items-center justify-between text-sm bg-gray-800 px-10 py-3 text-gray-200 shadow-gray-400 shadow-md hover:shadow-gray-500 hover:shadow-lg transition-all duration-200 mb-5 ">
+    <div className="z-100 flex items-center justify-between text-sm bg-gray-800 px-10 py-3 text-gray-200 shadow-gray-400 shadow-md hover:shadow-gray-500 hover:shadow-lg transition-all duration-200 ">
       <div className="font-bold">ShopEase</div>
       <div className="flex items-center relative ">
         <Input type="text" placeholder="Search Products" className="rounded-xs pl-10 focus:outline-none" />

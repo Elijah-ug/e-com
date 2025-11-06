@@ -6,11 +6,11 @@ import {
   updateCartProduct,
 } from "../controllers/cartControllers.js";
 import express from "express";
-const cartRouter = express.Router();
+const cartRoute = express.Router();
 
-cartRouter.post("/", verifyToken, addCartProduct);
-cartRouter.get("/:buyerId", verifyToken, getCartProducts);
-cartRouter.put("/:buyerId/:productId", verifyToken, updateCartProduct);
-cartRouter.delete("/:cartPdtId", verifyToken, deleteCartProduct);
+cartRoute.post("/", verifyToken, addCartProduct);
+cartRoute.get("/:buyerId", verifyToken, getCartProducts);
+cartRoute.put("/:buyerId/:productId", verifyToken, updateCartProduct);
+cartRoute.delete("/:cartPdtId", verifyToken, deleteCartProduct);
 
-export default cartRouter;
+export default cartRoute;

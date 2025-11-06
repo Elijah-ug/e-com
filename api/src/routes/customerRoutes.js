@@ -1,5 +1,5 @@
 import express from "express";
-const router = express.Router();
+const customerRoute = express.Router();
 import {
   addCustomer,
   getCustomers,
@@ -10,11 +10,11 @@ import {
 } from "../controllers/customerControllers.js";
 import { verifyToken } from "../../middleware/userRoutes.js";
 
-router.post("/", addCustomer);
-router.get("/", getCustomers);
-router.get("/customer", verifyToken, getCustomer);
-router.put("/:customer", verifyToken, updateCustomer);
-router.post("/login", loginBuyer);
-router.delete("/:customer", deleteCustomer);
+customerRoute.post("/", addCustomer);
+customerRoute.get("/", getCustomers);
+customerRoute.get("/customer", verifyToken, getCustomer);
+customerRoute.put("/:customer", verifyToken, updateCustomer);
+customerRoute.post("/login", loginBuyer);
+customerRoute.delete("/:customer", deleteCustomer);
 
-export default router;
+export default customerRoute;

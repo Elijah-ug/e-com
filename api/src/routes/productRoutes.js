@@ -1,15 +1,25 @@
 import express from "express";
-const router = express.Router();
-import { getProducts, addProduct, deleteProduct, updateProduct, searchProducts, getProduct
- } from "../controllers/productControllers.js";
+import {
+  getProducts,
+  addProduct,
+  deleteProduct,
+  updateProduct,
+  searchProducts,
+  getProduct,
+} from "../controllers/productControllers.js";
+import { upload } from "../../utils/utils.js";
+import { verifyToken } from "../../middleware/userRoutes.js";
+import { uploadToUploadCare } from "../../middleware/uploadToUploadCare.js";
+const productRoute = express.Router();
 
-router.get("/", getProducts);
-router.post("/", addProduct);
-router.post("/login", addProduct);
-router.get("/search", searchProducts);
-router.get("/:product", getProduct);
-router.put("/:product", updateProduct)
-router.delete("/:product", deleteProduct);
+productRoute.get("/", getProducts);
+productRoute.post("/add-product", verifyToken, upload.single("file"), uploadToUploadCare, addProduct);
+productRoute.post("/login", addProduct);
+productRoute.get("/search", searchProducts);
+productRoute.get("/:product", getProduct);
+productRoute.put("/:product", updateProduct);
+productRoute.delete("/:product", deleteProduct);
+// multer route
+// productRoute.post("/upload", )
 
-
-export default router;
+export default productRoute;

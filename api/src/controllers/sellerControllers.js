@@ -49,11 +49,13 @@ export const loginSeller = async (req, res, next) => {
     const loginToken = jwt.sign({ id: isUserAvailable.id, email: isUserAvailable.email }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    res.status(200).json({ data: isUserAvailable, message: "✅ Login successful", accessToken: loginToken });
+    res
+      .status(200)
+      .json({ data: isUserAvailable, message: "✅ Login successful", accessToken: loginToken, role: "seller" });
     console.log("loginToken==>", loginToken);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error });
   }
 };
 

@@ -72,7 +72,7 @@ export const Cart = () => {
   };
   console.log("tax==>", cartItems);
   return (
-    <div className="min-h-screen bg-gray-600 py-8">
+    <div className="px-3 sm:p-10 min-h-screen bg-gray-600 py-8">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold  mb-8">Your Cart</h1>
 

@@ -5,12 +5,12 @@ export const productsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_PRODUCTS_ENDPOINT,
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       console.log("TOKEN from localStorage to backend==>", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
-      console.log("Headers==>", headers);
+
       return headers;
     },
   }),
@@ -31,7 +31,18 @@ export const productsApi = createApi({
       query: (searchTerm) => `search?query=${searchTerm}`,
       providesTags: ["Product"],
     }),
+    addProduct: build.mutation({
+      query: (formData  ) => {
+       return{
+         url: "/add-product",
+        method: "POST",
+        body: formData
+       }
+      },
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
-export const { useGetProductsQuery, useGetProductByIdQuery, useSearchProductQuery } = productsApi;
+export const { useGetProductsQuery, useGetProductByIdQuery, useSearchProductQuery, useAddProductMutation } =
+  productsApi;
 export default productsApi;

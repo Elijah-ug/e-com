@@ -50,7 +50,7 @@ export const Profile = () => {
     localStorage.removeItem("token");
   };
   return (
-    <div className="flex items-center justify-center">
+    <div className="px-3 sm:p-10 flex items-center justify-center">
       {/* <div className="flex items-center justify-center bg-gray-100"> */}
       {user ? (
         <UserProfile user={user} />

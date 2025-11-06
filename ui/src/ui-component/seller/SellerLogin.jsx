@@ -10,7 +10,7 @@ export const SellerLogin = () => {
   const [userData, setUserData] = useState({ name: "", password: "", email: "" });
   const [isRegistered, setIsRegistered] = useState(false);
 
-  const [sellerAuth, { isLoading, error }] = useLoginSellerMutation();
+  const [sellerAuth, { isLoading, error: loginError }] = useLoginSellerMutation();
   const handleUserLogin = async (e) => {
     e.preventDefault();
 
@@ -18,11 +18,12 @@ export const SellerLogin = () => {
       console.log("UserData==>", userData);
       const login = await sellerAuth(userData).unwrap();
       const token = await login.accessToken;
+      localStorage.setItem("seller", JSON.stringify(login));
       localStorage.setItem("accessToken", token);
       console.log("Login Seller==>", login, token);
       return login;
     } catch (error) {
-      console.log("Error==>", error);
+      console.log("Error==>", error, "loginError==>", loginError);
     }
   };
   return (
@@ -62,7 +63,7 @@ export const SellerLogin = () => {
               </div>
               <div className="grid gap-2">
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-400">
-                  Register
+                  Login
                 </Button>
               </div>
             </div>

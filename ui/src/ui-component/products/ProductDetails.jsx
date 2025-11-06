@@ -9,7 +9,7 @@ export const ProductDetails = () =>{
   const {data: productDetails, error, isLoading} = useGetProductByIdQuery(parsedId)
   console.log("clicked product id =>", parsedId, productDetails )
     return(<div>
-        <div className="flex items-center justify-center">
+        <div className="px-3 sm:p-10 flex items-center justify-center">
                {
                 productDetails && (
                     <Card className="w-full max-w-lg cursor-pointer transform-all duration-300 hover:scale-102 ease-in-out bg-gray-600 border-none text-white">
