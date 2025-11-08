@@ -23,7 +23,7 @@ export const AvailableProduct = ({ product }) => {
   const isToBeChanged = product?.image?.startsWith("https://ucarecdn.com/")
     ? product?.image?.replace("https://ucarecdn.com/", " https://nal5eytndp.ucarecd.net/")
     : product?.image;
-  console.log("isToBeChanged==>", isToBeChanged);
+  // console.log("isToBeChanged==>", isToBeChanged);
   return (
     <div>
       <Card className="w-full h-full max-w-sm transform-all duration-300 hover:scale-102 ease-in-out bg-gray-500 border-none text-white rounded-sm">

@@ -10,7 +10,8 @@ export const addCartProduct = async (req, res) => {
       },
       include: { product: true, buyer: true },
     });
-    console.log("🛒 Item added to cart");
+    
+    console.log("🛒 Item added to cart", item);
     res.status(200).json({ data: item, message: "🛒 item added to cart" });
   } catch (error) {
     console.log(error);
@@ -54,7 +55,7 @@ export const updateCartProduct = async (req, res) => {
     });
 
     if (!isInCart) res.status(400).json({ Error: "Not in cart" });
-  
+
     const product = await prisma.cartItem.update({
       where: { buyerId_productId: { buyerId: +buyerId, productId: +productId } },
       data: { quantity: positive ? { increment: 1 } : { decrement: 1 } },

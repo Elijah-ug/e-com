@@ -11,6 +11,7 @@ model Seller {
   id       Int       @id @default(autoincrement())
   email    String    @unique
   name     String
+  balance  Int?
   password String    @default("pending")
   products Product[]
 }
@@ -25,6 +26,8 @@ model Product {
   updatedAt   DateTime?
   owner       Seller      @relation(fields: [ownerId], references: [id])
   ownerId     Int
+  isOrdered   Boolean
+  isBought    Boolean
   cartItems   CartItem[]
   orderItems  OrderItem[]
 }
@@ -54,6 +57,7 @@ model Buyer {
   name       String
   email      String      @unique
   password   String      @default("pending")
+  balance    Int?
   cartItem   CartItem[]
   orderItems OrderItem[]
 }

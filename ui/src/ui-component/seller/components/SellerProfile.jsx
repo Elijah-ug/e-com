@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
-import { useGetSellerQuery } from "./sellerQuery";
+import { useGetSellerQuery } from "../sellerQuery";
 
 export const SellerProfile = () => {
   const { data, isLoading, error } = useGetSellerQuery();

@@ -18,7 +18,6 @@ export const addCustomer = async (req, res) => {
     });
     // create a jwt token
 
-    console.log("created customer with token ==>", token);
     return res.status(200).json({ message: "Created User", buyer: customer, token });
   } catch (error) {
     console.log(error);

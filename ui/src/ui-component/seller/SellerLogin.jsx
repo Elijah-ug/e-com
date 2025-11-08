@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginSellerMutation } from "./sellerQuery";
 
 export const SellerLogin = () => {
   const [userData, setUserData] = useState({ name: "", password: "", email: "" });
   const [isRegistered, setIsRegistered] = useState(false);
-
+  const navigate = useNavigate();
   const [sellerAuth, { isLoading, error: loginError }] = useLoginSellerMutation();
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +21,8 @@ export const SellerLogin = () => {
       localStorage.setItem("seller", JSON.stringify(login));
       localStorage.setItem("accessToken", token);
       console.log("Login Seller==>", login, token);
-      return login;
+      navigate("/seller-dashboard/seller-home");
+      return login; 
     } catch (error) {
       console.log("Error==>", error, "loginError==>", loginError);
     }
@@ -32,7 +33,7 @@ export const SellerLogin = () => {
         <CardHeader>
           <CardTitle>You're registering as a seller</CardTitle>
           <CardAction className="flex items-center gap-1">
-            <Link to="/register">Sign Up</Link>
+            <Link to="/seller-dashboard/register-seller">Sign Up</Link>
           </CardAction>
         </CardHeader>
         <CardContent>

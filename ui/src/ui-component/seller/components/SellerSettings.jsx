@@ -1,0 +1,6 @@
+import React from "react";
+
+export const SellerSettings = () => {
+  return <div>SellerSettings</div>;
+};
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               

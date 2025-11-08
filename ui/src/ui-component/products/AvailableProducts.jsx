@@ -22,7 +22,7 @@ export const AvailableProducts = () => {
     isLoading: searchPending,
   } = useSearchProductQuery(triggerSearch, { skip: !triggerSearch });
 
-  // console.log("Add to cart==>", addToCart);
+  console.log("products==>", products);
 
   const handleSearch = (event) => {
     event.preventDefault();

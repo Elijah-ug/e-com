@@ -9,43 +9,39 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { BadgeDollarSign, Bell, House, ListOrdered, Settings, ShoppingBasket, UsersRound } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
-export const SellerNav = () => {
+export const SellerNav = ({ data }) => {
+  console.log("data==>", data);
   return (
     <div className="">
-      {/* Top nav */}
+     
+      <div className="flex flex-1 items-center overflow-hidden ">
+        <SidebarProvider className="">
+          <Sidebar className="relative bg-gray-800">
+            <SidebarHeader className="py-5 px-3 flex flex-col gap-7 ">
+             
 
-      {/* Main content area */}
-      <div className="flex flex-1 items-center overflow-hidden">
-        <SidebarProvider>
-          <Sidebar className="relative ">
-            <SidebarHeader className="py-5 px-3 flex flex-col gap-5">
-              <Link className="flex items-center gap-2">
-                <House />
-                <span>Home</span>
-              </Link>
-
-              <Link className="flex items-center gap-2">
+              <Link to="remaining-products" className="flex items-center gap-2">
                 <ShoppingBasket />
                 <span>Products</span>
               </Link>
 
-              <Link className="flex items-center gap-2">
+              <Link to={data?.email ? "profile" : "seller-login"} className="flex items-center gap-2">
                 <UsersRound />
-                <span>Profile</span>
+                <span>{data ? "Profile" : "Login"}</span>
               </Link>
 
-              <Link className="flex items-center gap-2">
+              <Link to="order-list" className="flex items-center gap-2">
                 <ListOrdered /> <span>Order list</span>
               </Link>
 
-              <Link className="flex items-center gap-2">
+              <Link to="settings" className="flex items-center gap-2">
                 <Settings />
                 <span>Settings</span>
               </Link>
 
-              <Link className="flex items-center gap-2">
+              <Link to="notifications" className="flex items-center gap-2">
                 <Bell />
                 <span> Notifications</span>
               </Link>
@@ -56,11 +52,6 @@ export const SellerNav = () => {
             </SidebarContent>
             <SidebarFooter />
           </Sidebar>
-
-          {/* Page content goes here */}
-          <main className="flex-1 p-4 overflow-auto">
-            <p>Dashboard content here</p>
-          </main>
         </SidebarProvider>
       </div>
     </div>
