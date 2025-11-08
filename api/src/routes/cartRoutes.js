@@ -9,7 +9,7 @@ import express from "express";
 const cartRoute = express.Router();
 
 cartRoute.post("/", verifyToken, addCartProduct);
-cartRoute.get("/:buyerId", verifyToken, getCartProducts);
+cartRoute.get("/", verifyToken, getCartProducts);
 cartRoute.put("/:buyerId/:productId", verifyToken, updateCartProduct);
 cartRoute.delete("/:cartPdtId", verifyToken, deleteCartProduct);
 

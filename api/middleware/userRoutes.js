@@ -13,7 +13,7 @@ export const verifyToken = async (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    console.log("Error==>", error);
+    console.log("Error==>", error.message);
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 

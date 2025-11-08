@@ -9,8 +9,9 @@ export const cartQuery = createApi({
       console.log("TOKEN from localStorage to backend==>", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
+        console.log("Headers==>", token);
       }
-      console.log("Headers==>", headers);
+
       return headers;
     },
   }),
@@ -18,7 +19,10 @@ export const cartQuery = createApi({
   endpoints: (build) => ({
     // get cart products
     getCartProducts: build.query({
-      query: (idBuyer) => `/${idBuyer}`,
+      query: () => ({
+        url: "/",
+        method: "GET",
+      }),
       providesTags: ["Cart"],
     }),
     // add cart products

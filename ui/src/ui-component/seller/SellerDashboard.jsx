@@ -6,6 +6,7 @@ import { SellerNav } from "./components/SellerNav";
 import { Outlet } from "react-router-dom";
 import { SellerHome } from "./components/SellerHome";
 import { Separator } from "@radix-ui/react-separator";
+import { SellerProducts } from "./components/SellerProducts";
 
 export const SellerDashboard = () => {
   const { data, isLoading, error } = useGetSellerQuery();

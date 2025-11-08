@@ -4,20 +4,23 @@ import { Link, replace } from "react-router-dom";
 import { useAddProductToCartMutation } from "../cart/cartQuery";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 export const AvailableProduct = ({ product }) => {
-  const [addProductToCart, { isLoading, isSuccess, error }] = useAddProductToCartMutation();
+  const [addProductToCart, { isLoading, isSuccess, error: addErr }] = useAddProductToCartMutation();
 
   const handleAddToCart = async (productId) => {
     try {
       const buyerId = JSON.parse(localStorage.getItem("buyer"))?.id;
       console.log("buyer==>", buyerId);
-      const product = await addProductToCart({ productId, quantity: 1, buyerId }).unwrap();
+      const product = await addProductToCart({ productId, quantity: 1 }).unwrap();
+      toast.success("Product added to cart");
       console.log("Added to cart==>", product);
       // localStorage.setItem("cartProduct", JSON.stringify(product.data));
       return product;
     } catch (error) {
-      console.log("Error==>", error);
+      toast.error("Failed to add product to cart");
+      console.log("Error==>", error, "BackendError==>", addErr);
     }
   };
   const isToBeChanged = product?.image?.startsWith("https://ucarecdn.com/")
@@ -42,8 +45,15 @@ export const AvailableProduct = ({ product }) => {
               <span>{`$ ${product.price}`}</span>
             </div>
             <Button onClick={() => handleAddToCart(product.id)} className="w-full bg-blue-400 hover:bg-blue-300">
-              <FaPlus />
-              {isLoading ? "Adding to cart..." : "Add To Cart"}
+              {isLoading ? (
+                <div className="">
+                  <span>Adding to cart...</span>{" "}
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <FaPlus /> Add To Cart
+                </div>
+              )}
             </Button>
           </div>
         </CardContent>

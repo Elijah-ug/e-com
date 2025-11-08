@@ -3,9 +3,10 @@
 import { useAddBuyerMutation, useLoginBuyerMutation, useUserProfileQuery } from "./user";
 import { useState } from "react";
 
-import { useGetCartProductsQuery } from "../cart/cartQuery";
+// import { useGetCartProductsQuery } from "../cart/cartQuery";
 import { UserLogin } from "./UserLogin";
 import { UserProfile } from "./UserProfile";
+import { toast } from "react-toastify";
 
 export const Profile = () => {
   const [userData, setUserData] = useState({ email: "", password: "", name: "" });
@@ -15,6 +16,8 @@ export const Profile = () => {
   const [registerBuyer, { isLoading: loadReg, error: regErr, isSuccess: regSux }] = useAddBuyerMutation();
 
   const { data: user, loading, error: profErr } = useUserProfileQuery();
+  // const { data: userCart, isLoading: loadData } = useGetCartProductsQuery();
+  // console.log("Tried to get data here==>", userCart, "loadData==>", loadData);
   console.log("user==>", user);
 
   const handleUserLogin = async (e) => {
@@ -37,7 +40,7 @@ export const Profile = () => {
         //   store in the local storage
         localStorage.setItem("buyer", JSON.stringify(buyer));
         localStorage.setItem("token", token);
-
+        toast.success("Logged in");
         console.log("Logged In as==>", buyer);
         console.log("Logged In as==>", token);
       }

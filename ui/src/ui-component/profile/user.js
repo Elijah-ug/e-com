@@ -8,6 +8,7 @@ export const userQuery = createApi({
       const token = localStorage.getItem("token");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
+        console.log("token==>", token);
       }
       return headers;
     },

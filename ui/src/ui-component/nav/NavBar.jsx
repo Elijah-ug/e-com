@@ -8,10 +8,9 @@ import { MdSearch } from "react-icons/md";
 
 export const NavBar = () => {
   const buyerId = JSON.parse(localStorage.getItem("buyer"))?.id;
-  const { data: cartItems, error: cartErr, isLoading: cartLoad } = useGetCartProductsQuery(buyerId);
-  const cartLeng = cartItems?.reduce((sum, item) => item?.quantity + sum, 0);
+  const { data: cartItems, error: cartErr, isLoading: cartLoad } = useGetCartProductsQuery();
+  const cartLen = cartItems?.totalCartProducts;
 
-  console.log("total cart items==>", cartLeng);
   return (
     <div className="z-100 flex items-center justify-between text-sm bg-gray-800 px-10 py-3 text-gray-200 shadow-gray-400 shadow-md hover:shadow-gray-500 hover:shadow-lg transition-all duration-200 ">
       <div className="font-bold">ShopEase</div>
@@ -30,9 +29,11 @@ export const NavBar = () => {
         <NavLink to="cart" className="flex items-center gap-1 relative p-2">
           <BaggageClaim />
           <span>Cart</span>
-          <span className="flex items-center justify-center absolute text-[10px] font-semibold left-4 top-1 w-5 h-5 rounded-xl bg-red-500 p-0.5 text-white">
-            {cartLeng}
-          </span>
+          {cartItems?.data.length > 0 && (
+            <span className="flex items-center justify-center absolute text-[10px] font-semibold left-4 top-1 w-5 h-5 rounded-xl bg-red-500 p-0.5 text-white">
+              {cartLen}
+            </span>
+          )}
         </NavLink>
       </div>
     </div>

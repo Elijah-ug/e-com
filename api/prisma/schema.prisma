@@ -26,8 +26,8 @@ model Product {
   updatedAt   DateTime?
   owner       Seller      @relation(fields: [ownerId], references: [id])
   ownerId     Int
-  isOrdered   Boolean
-  isBought    Boolean
+  isOrdered   Boolean     @default(false)
+  isBought    Boolean     @default(false)
   cartItems   CartItem[]
   orderItems  OrderItem[]
 }

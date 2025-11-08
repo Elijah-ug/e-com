@@ -43,6 +43,25 @@ export const sellerQuery = createApi({
       }),
       invalidatesTags: ["Seller"],
     }),
+    // get sellers products
+    getSellersProducts: build.query({
+      query: () => ({
+        url: "/seller/products",
+        method: "GET",
+      }),
+      transformResponse: (res) => res.data,
+      providesTags: ["Sellers"],
+    }),
+
+    getSellersOrderedProducts: build.query({
+      query: () => ({
+        url: "/seller/ordered-products",
+        method: "GET",
+      }),
+      transformResponse: (res) => res.data,
+      providesTags: ["Sellers"],
+    }),
   }),
 });
-export const { useLoginSellerMutation, useRegisterSellerMutation, useGetSellerQuery } = sellerQuery;
+export const { useLoginSellerMutation, useRegisterSellerMutation, useGetSellerQuery, useGetSellersProductsQuery, useGetSellersOrderedProductsQuery } =
+  sellerQuery;

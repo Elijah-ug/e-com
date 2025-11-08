@@ -28,8 +28,8 @@ export const addProduct = async (req, res) => {
 export const getProducts = async (req, res) => {
   try {
     const products = await prisma.product.findMany();
-    const orderedProducts = products.filter((prod) => prod.buyer);
-    console.log("orderedProducts==>", products);
+    const orderedProducts = products.filter((prod) => prod.ownerId);
+    console.log("orderedProducts==>", orderedProducts);
 
     res.status(200).json(products);
   } catch (error) {

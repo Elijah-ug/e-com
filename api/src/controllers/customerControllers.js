@@ -54,6 +54,7 @@ export const getCustomers = async (req, res) => {
 export const getCustomer = async (req, res) => {
   try {
     const userId = req.user.id;
+    console.log("buyerId here==>", userId, typeof userId);
     const user = await prisma.buyer.findUnique({
       where: {
         id: userId,

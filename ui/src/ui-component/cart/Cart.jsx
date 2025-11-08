@@ -7,32 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CheckoutSummary } from "./CheckoutSummary";
+import { data } from "react-router-dom";
 
 export const Cart = () => {
-  const [tax, setTax] = useState("");
-  const [subtotal, setSubTotal] = useState("");
-  const [total, setTotal] = useState("");
-
-  const idBuyer = JSON.parse(localStorage.getItem("buyer"))?.id;
-  // const productId = JSON.parse(localStorage.getItem("cartProduct")).productId;
-  // console.log("productId==>", productId);
-
-  const { data: cartItems, error: cartErr, isLoading: cartLoad } = useGetCartProductsQuery(idBuyer);
+  const { data: cartItems, error: cartErr, isLoading: cartLoad } = useGetCartProductsQuery();
+  console.log("cartItems==>", cartItems);
   const [removeCartItem, { error: delErr, isLoading: delLoad }] = useRemoveItemFromCartMutation();
 
   const [updateQty, { isLoading: loadUpdate, error: updateErr }] = useUpdateProductQtyMutation();
   const taxPerceintage = parseInt(import.meta.env.VITE_TAX_PERCEITAGE);
-
-  useEffect(() => {
-    const sTotal = cartItems?.reduce((sum, item) => item?.product?.price * item?.quantity + sum, 0).toFixed(2);
-    const tx = (
-      (cartItems?.reduce((sum, item) => item?.product?.price * item?.quantity + sum, 0) * taxPerceintage) /
-      100
-    ).toFixed(2);
-    setSubTotal(sTotal);
-    setTax(tx);
-    setTotal(sTotal - tx);
-  }, [cartItems, taxPerceintage]);
 
   const updateQuantity = async (buyerId, productId, quantity, type) => {
     let positive;
@@ -70,7 +53,7 @@ export const Cart = () => {
       return remove;
     } catch (error) {}
   };
-  console.log("tax==>", cartItems);
+  // console.log("tax==>", cartItems?.data);
   return (
     <div className="px-3 sm:p-10 min-h-screen bg-gray-600 py-8">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,14 +62,14 @@ export const Cart = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items - 2/3 width on large screens */}
           <div className="lg:col-span-2 space-y-1">
-            {!cartItems || cartItems?.length < 1 ? (
+            {cartItems?.data?.length < 1 ? (
               <Card>
                 <CardContent className="py-12 text-center">
                   <p className="text-gray-500">Your cart is empty</p>
                 </CardContent>
               </Card>
             ) : (
-              cartItems
+              cartItems?.data
                 ?.slice()
                 .sort((a, b) => a.product.id - b.product.id)
                 .map((item) => (
@@ -147,9 +130,14 @@ export const Cart = () => {
           </div>
 
           {/* Checkout Summary Card - 1/3 width */}
-          {cartItems?.length > 0 && (
+          {cartItems?.data?.length > 0 && (
             <div className="lg:col-span-1">
-              <CheckoutSummary tax={tax} taxPerceintage={taxPerceintage} subtotal={subtotal} total={total} />
+              <CheckoutSummary
+                tax={cartItems.totalTax}
+                taxPerceintage={cartItems.tax}
+                subtotal={cartItems.totalCost}
+                total={cartItems.netCost}
+              />
             </div>
           )}
         </div>
