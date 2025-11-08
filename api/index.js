@@ -9,7 +9,8 @@ import cartRoute from "./src/routes/cartRoutes.js";
 dotenv.config();
 const app = express();
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://e-com-fst8.onrender.com"],
+  origin: ["http://localhost:5173", "https://shopping-cart-mauve-theta.vercel.app"],
+
   methods: ["GET", "POST", "PUT", "DELETE"],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   allowedHeaders: ["Content-Type", "Authorization"],
