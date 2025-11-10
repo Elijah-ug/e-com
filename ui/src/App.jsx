@@ -17,6 +17,9 @@ import { OrderList } from "./ui-component/seller/components/OrderList";
 import { SellerProfile } from "./ui-component/seller/components/SellerProfile";
 import { SellerProducts } from "./ui-component/seller/components/SellerProducts";
 import { ToastContainer } from "react-toastify";
+import { RegisterUser } from "./ui-component/profile/RegisterUser";
+import { Wallet } from "./ui-component/seller/components/Wallet";
+import { AddProduct } from "./ui-component/seller/components/AddProduct";
 
 export const App = () => {
   return (
@@ -32,7 +35,6 @@ export const App = () => {
             <Route path="/:product" element={<ProductDetails />} />
             <Route path="cart" element={<Cart />} />
             <Route path="seller-dashboard" element={<SellerDashboard />}>
-              <Route path="register-seller" element={<AuthenticateSeller />} />
               <Route path="seller-login" element={<SellerLogin />} />
               <Route path="seller-home" element={<SellerHome />} />
               <Route path="settings" element={<SellerSettings />} />
@@ -41,7 +43,11 @@ export const App = () => {
               <Route path="order-list" element={<OrderList />} />
               <Route path="profile" element={<SellerProfile />} />
               <Route path="seller-products" element={<SellerProducts />} />
+              <Route path="wallet" element={<Wallet />} />
+              <Route path="add-product" element={<AddProduct />} />
             </Route>
+            <Route path="register-user" element={<RegisterUser />} />
+            <Route path="register-seller" element={<AuthenticateSeller />} />
           </Routes>
         </div>
       </div>

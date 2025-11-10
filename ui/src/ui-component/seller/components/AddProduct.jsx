@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAddProductMutation } from "@/ui-component/products/productsApi";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const AddProduct = () => {
   const [submitProduct, { isLoading, error: isError }] = useAddProductMutation();
@@ -24,7 +25,8 @@ export const AddProduct = () => {
       //
       console.log("Loading", isLoading);
       const res = await submitProduct(formData).unwrap();
-
+      toast.success("Product added!");
+      setProduct({ name: "", description: "", price: "", file: null });
       console.log("res==>", res);
     } catch (error) {
       console.log("isError==>", isError);
@@ -34,7 +36,7 @@ export const AddProduct = () => {
   console.log("Loading", isLoading);
 
   return (
-    <div>
+    <div className="flex justify-center py-5">
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
           <CardTitle>You're registering as a seller</CardTitle>
@@ -94,7 +96,7 @@ export const AddProduct = () => {
               </div>
               <div className="grid gap-2">
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-400">
-                  {isLoading ? "Adding Product..." : "Add Product"}
+                  {isLoading ? "Adding Product..." : "+ Add Product"}
                 </Button>
               </div>
             </div>

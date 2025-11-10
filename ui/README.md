@@ -5,3 +5,9 @@
 * Solved by sorting the array
 
 ## Experience gained in the due
+
+
+* todos
+- separate login from register for buyers
+- seller dashboard cleanup
+- buyer dashboard

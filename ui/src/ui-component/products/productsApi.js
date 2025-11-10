@@ -29,18 +29,19 @@ export const productsApi = createApi({
     // search a product by name or description
     searchProduct: build.query({
       query: (searchTerm) => `search?query=${searchTerm}`,
-      providesTags: ["Product"],
+      providesTags: (result, error, id) => [{ type: "Product", id }],
     }),
     addProduct: build.mutation({
-      query: (formData  ) => {
-       return{
-         url: "/add-product",
-        method: "POST",
-        body: formData
-       }
+      query: (formData) => {
+        return {
+          url: "/add-product",
+          method: "POST",
+          body: formData,
+        };
       },
-      invalidatesTags: ["Product"],
+      invalidatesTags: (result, error, id) => [{ type: "Product", id }],
     }),
+    
   }),
 });
 export const { useGetProductsQuery, useGetProductByIdQuery, useSearchProductQuery, useAddProductMutation } =

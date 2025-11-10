@@ -22,7 +22,7 @@ export const SellerLogin = () => {
       localStorage.setItem("accessToken", token);
       console.log("Login Seller==>", login, token);
       navigate("/seller-dashboard/seller-home");
-      return login; 
+      return login;
     } catch (error) {
       console.log("Error==>", error, "loginError==>", loginError);
     }
@@ -31,9 +31,9 @@ export const SellerLogin = () => {
     <div>
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
-          <CardTitle>You're registering as a seller</CardTitle>
+          <CardTitle>Seller Login</CardTitle>
           <CardAction className="flex items-center gap-1">
-            <Link to="/seller-dashboard/register-seller">Sign Up</Link>
+            <Link to="/register-seller">Sign Up</Link>
           </CardAction>
         </CardHeader>
         <CardContent>

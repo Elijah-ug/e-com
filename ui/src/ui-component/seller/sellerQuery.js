@@ -46,7 +46,7 @@ export const sellerQuery = createApi({
     // get sellers products
     getSellersProducts: build.query({
       query: () => ({
-        url: "/seller/products",
+        url: "/seller/remaining-products",
         method: "GET",
       }),
       transformResponse: (res) => res.data,
@@ -63,5 +63,10 @@ export const sellerQuery = createApi({
     }),
   }),
 });
-export const { useLoginSellerMutation, useRegisterSellerMutation, useGetSellerQuery, useGetSellersProductsQuery, useGetSellersOrderedProductsQuery } =
-  sellerQuery;
+export const {
+  useLoginSellerMutation,
+  useRegisterSellerMutation,
+  useGetSellerQuery,
+  useGetSellersProductsQuery,
+  useGetSellersOrderedProductsQuery,
+} = sellerQuery;

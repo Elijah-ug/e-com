@@ -10,6 +10,7 @@ import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import { useAddProductToCartMutation } from "../cart/cartQuery";
 import { AvailableProduct } from "./AvailableProduct";
+import { User } from "../home/User";
 
 export const AvailableProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,25 +44,30 @@ export const AvailableProducts = () => {
 
   return (
     <div className="">
-      <form onSubmit={handleSearch} className="flex items-center justify-center pb-7">
-        <div className="w-sm flex items-center text-white gap-1 ">
-          <div className="relative ">
-            <Input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              type="text"
-              placeholder="Search for a product"
-            />
-            <IoClose
-              onClick={handleClearSearchTerm}
-              className={`${searchTerm ? "absolute top-2 right-2 text-lg" : "hidden"} `}
-            />
+      <div className="flex justify-around">
+        <form onSubmit={handleSearch} className="flex items-center justify-center pb-7">
+          <div className="w-sm flex items-center text-white gap-1 ">
+            <div className="relative ">
+              <Input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                type="text"
+                placeholder="Search for a product"
+              />
+              <IoClose
+                onClick={handleClearSearchTerm}
+                className={`${searchTerm ? "absolute top-2 right-2 text-lg" : "hidden"} `}
+              />
+            </div>
+            <Button type="submit" className="bg-blue-400 hover:bg-blue-300">
+              Search
+            </Button>
           </div>
-          <Button type="submit" className="bg-blue-400 hover:bg-blue-300">
-            Search
-          </Button>
+        </form>
+        <div className="">
+          <User />
         </div>
-      </form>
+      </div>
 
       {isLoading ? (
         <p className="flex items-center justify-center text-white text-xl">Loading...</p>

@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import {
   Card,
   CardAction,
@@ -13,24 +13,51 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useAddBuyerMutation } from "./user";
+import { useNavigate } from "react-router-dom";
 
-export const UserLogin = ({ handleUserLogin, setUserData, userData, isLoading }) => {
+export const RegisterUser = () => {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [userData, setUserData] = useState({ email: "", password: "", name: "" });
+
+  const [registerBuyer, { isLoading, error, isSuccess }] = useAddBuyerMutation();
+
+  const navigate = useNavigate();
+
+  const handleUserRegistration = async () => {
+    try {
+      if (user !== null || user !== undefined) {
+        console.log("Error: User is logged in");
+      }
+      const res = await registerBuyer(userData).unwrap();
+      const user = await res.buyer;
+      navigate("/profile");
+      console.log("created user ==>", user);
+      console.log("User data ==>", res);
+    } catch (error) {}
+  };
   return (
-    <div>
-      <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
+    <div className="flex justify-center py-13">
+      <Card className="w-md bg-gray-500 border-none rounded-xs py-7 text-white ">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>Enter your email below to login to your account</CardDescription>
-          <CardAction className="flex items-center gap-1">
-            <FaLongArrowAltLeft className="cursor-pointer text-xl" />
-            <Link to="/register-user">Sign Up</Link>
-          </CardAction>
+          <CardTitle className="text-center">Enter your info below to register</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleUserLogin}>
+          <form onSubmit={handleUserRegistration}>
             <div className="flex flex-col gap-6">
               {/* name */}
+
+              <div className="grid gap-2">
+                <Label htmlFor="email">Name</Label>
+                <Input
+                  value={userData.name}
+                  onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                  id="name"
+                  type="name"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
 
               {/* email */}
               <div className="grid gap-2">
@@ -57,7 +84,7 @@ export const UserLogin = ({ handleUserLogin, setUserData, userData, isLoading })
               </div>
               <div className="grid gap-2">
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-400">
-                  {isLoading ? "Register" : "Login"}
+                  {isLoading ? "Registering..." : "Register"}
                 </Button>
               </div>
             </div>

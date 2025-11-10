@@ -28,7 +28,8 @@ export const RemainingProduct = ({ product, isLoading }) => {
                 <span>Description:</span>
                 <span>
                   {" "}
-                  {product.description.length >= 400 ? `${product.description.slice(0, 30)}...` : product.description}
+                  {product.description.length >= 40 ? `${product.description.slice(0, 40)}...` : product.description}
+                  
                 </span>
               </div>
             </div>

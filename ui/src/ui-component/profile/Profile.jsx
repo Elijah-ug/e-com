@@ -10,57 +10,43 @@ import { toast } from "react-toastify";
 
 export const Profile = () => {
   const [userData, setUserData] = useState({ email: "", password: "", name: "" });
-  const [isRegistering, setIsRegistering] = useState(false);
 
   const [buyerLogin, { isLoading, error, isSuccess }] = useLoginBuyerMutation();
-  const [registerBuyer, { isLoading: loadReg, error: regErr, isSuccess: regSux }] = useAddBuyerMutation();
 
   const { data: user, loading, error: profErr } = useUserProfileQuery();
-  // const { data: userCart, isLoading: loadData } = useGetCartProductsQuery();
-  // console.log("Tried to get data here==>", userCart, "loadData==>", loadData);
+
   console.log("user==>", user);
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
-    // { email: userData.email, password: userData.password }
     try {
-      if (isRegistering) {
-        const res = await registerBuyer(userData).unwrap();
-        const user = await res.buyer;
+      const res = await buyerLogin(userData).unwrap();
+      const buyer = await res.user;
+      const token = await res.accessToken;
 
-        //   store in the local storage
-        // localStorage.setItem("buyer", JSON.stringify(buyer));
-        console.log("created user ==>", user);
-        console.log("User data ==>", res);
-      } else {
-        const res = await buyerLogin(userData).unwrap();
-        const buyer = await res.user;
-        const token = await res.accessToken;
-
-        //   store in the local storage
-        localStorage.setItem("buyer", JSON.stringify(buyer));
-        localStorage.setItem("token", token);
-        toast.success("Logged in");
-        console.log("Logged In as==>", buyer);
-        console.log("Logged In as==>", token);
-      }
+      localStorage.setItem("buyer", JSON.stringify(buyer));
+      localStorage.setItem("token", token);
+      toast.success("Login success");
+      console.log("Logged In as==>", buyer);
+      console.log("Logged In as==>", token);
     } catch (error) {
       console.log("Error==>", error);
     }
   };
+
   const handleLogout = () => {
     localStorage.removeItem("buyer");
     localStorage.removeItem("token");
+    toast.success("Logged out");
   };
   return (
     <div className="px-3 sm:p-10 flex items-center justify-center">
       {/* <div className="flex items-center justify-center bg-gray-100"> */}
       {user ? (
-        <UserProfile user={user} />
+        <UserProfile user={user} handleLogout={handleLogout} />
       ) : (
         <UserLogin
-          setIsRegistering={setIsRegistering}
-          isRegistering={isRegistering}
+          isLoading={isLoading}
           handleUserLogin={handleUserLogin}
           setUserData={setUserData}
           userData={userData}

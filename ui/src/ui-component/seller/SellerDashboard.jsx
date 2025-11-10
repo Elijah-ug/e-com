@@ -10,9 +10,11 @@ import { SellerProducts } from "./components/SellerProducts";
 
 export const SellerDashboard = () => {
   const { data, isLoading, error } = useGetSellerQuery();
+  console.log("data==>", data);
+
   return (
     <div className="flex  items-cente ">
-      <div className="hidden sm:flex gap-7 w-full  ">
+      <div className="hidden sm:flex gap-7 w-full   ">
         <SellerNav data={data} />
         <div className="py-5 flex flex-col gap-5 w-full">
           <div className="flex  flex-col gap-4">

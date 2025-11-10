@@ -3,7 +3,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterSellerMutation } from "./sellerQuery";
 
 export const AuthenticateSeller = () => {
@@ -11,23 +11,25 @@ export const AuthenticateSeller = () => {
   const [isRegistered, setIsRegistered] = useState(false);
 
   const [registerSeller, { isLoading, error }] = useRegisterSellerMutation();
+  const navigate = useNavigate()
   const handleUserRegistration = async (e) => {
     e.preventDefault();
     try {
       console.log("UserData==>", userData);
       const register = await registerSeller(userData).unwrap();
+
       console.log("Register==>", register);
+      navigate("/seller-dashboard")
       return register;
     } catch (error) {
       console.log("Error==>", error);
     }
   };
   return (
-    <div>
+    <div className="flex justify-center py-13">
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
-          <CardTitle>You're registering as a seller</CardTitle>
-          <CardAction className="flex items-center gap-1"></CardAction>
+          <CardTitle className="text-center">You're registering as a seller</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleUserRegistration}>
