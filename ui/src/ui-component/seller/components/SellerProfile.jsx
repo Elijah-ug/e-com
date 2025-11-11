@@ -6,6 +6,12 @@ import { useGetSellerQuery } from "../sellerQuery";
 export const SellerProfile = () => {
   const { data, isLoading, error } = useGetSellerQuery();
   //   const seller = localStorage.getItem("accessToken");
+  const logoutSeller = () => {
+    console.log("Logging out==>", data);
+    localStorage.removeItem("seller");
+    localStorage.removeItem("accessToken");
+    console.log("Logged out==>", data);
+  };
   console.log("Data is here==>", data);
   return (
     <div>
@@ -33,7 +39,9 @@ export const SellerProfile = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="bg-red-400 hover:bg-red-400">Logout</Button>
+            <Button onClick={logoutSeller} className="bg-red-400 hover:bg-red-400">
+              Logout
+            </Button>
           </CardFooter>
         </Card>
       )}

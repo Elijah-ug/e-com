@@ -1,21 +1,24 @@
 // TODOS 1. unwrap docs
 
-import { useAddBuyerMutation, useLoginBuyerMutation, useUserProfileQuery } from "./user";
-import { useState } from "react";
+import { useAddBuyerMutation, useLoginBuyerMutation, useUpdateBuyerMutation, useUserProfileQuery } from "./user";
+import { useEffect, useState } from "react";
 
 // import { useGetCartProductsQuery } from "../cart/cartQuery";
 import { UserLogin } from "./UserLogin";
 import { UserProfile } from "./UserProfile";
 import { toast } from "react-toastify";
+import { getUserGeoLocationCordinates } from "@/utils/utils";
 
 export const Profile = () => {
+  const [isLoggedIn, setIsLogged] = useState(false);
+  const [position, setPosition] = useState(null);
+
   const [userData, setUserData] = useState({ email: "", password: "", name: "" });
 
   const [buyerLogin, { isLoading, error, isSuccess }] = useLoginBuyerMutation();
+  const [updateBuyer, { isLoading: loadUpdate, error: updateErr }] = useUpdateBuyerMutation();
 
   const { data: user, loading, error: profErr } = useUserProfileQuery();
-
-  console.log("user==>", user);
 
   const handleUserLogin = async (e) => {
     e.preventDefault();
@@ -27,18 +30,51 @@ export const Profile = () => {
       localStorage.setItem("buyer", JSON.stringify(buyer));
       localStorage.setItem("token", token);
       toast.success("Login success");
+      setIsLogged(true);
       console.log("Logged In as==>", buyer);
       console.log("Logged In as==>", token);
     } catch (error) {
       console.log("Error==>", error);
     }
   };
+  useEffect(() => {
+    getUserGeoLocationCordinates()
+      .then((pos) => setPosition(pos))
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
+  useEffect(() => {
+    const update = async () => {
+      try {
+        if (!user?.latitude || !user?.longitude) {
+          const updates = await updateBuyer({
+            latitude: position.lat,
+            longitude: position.lng,
+          }).unwrap();
+
+          console.log("user==>", updates);
+        } else {
+          console.log("No user here==>", user);
+        }
+      } catch (error) {
+        console.log("error==>", error);
+      }
+    };
+    update();
+  }, [position, user]);
   const handleLogout = () => {
     localStorage.removeItem("buyer");
     localStorage.removeItem("token");
     toast.success("Logged out");
+    setIsLogged(false);
   };
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     handleLogout();
+  //   }
+  // }, [isLoggedIn]);
   return (
     <div className="px-3 sm:p-10 flex items-center justify-center">
       {/* <div className="flex items-center justify-center bg-gray-100"> */}

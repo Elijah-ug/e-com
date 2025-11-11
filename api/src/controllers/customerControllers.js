@@ -66,15 +66,17 @@ export const getCustomer = async (req, res) => {
 
 export const updateCustomer = async (req, res) => {
   const id = req.user.id;
+  console.log("waiting for async action");
   try {
     const { email, name, password, phone, whatsapp, longitude, latitude } = req.body;
+    const hashedPwd = await bcrypt.hash(password, 10);
+    console.log("hashedpwd==>", hashedPwd);
     const newBuyer = await prisma.buyer.update({
       where: { id },
-      data: { email, name, password, phone, whatsapp, longitude, latitude },
+      data: { email, name, password: hashedPwd, phone, whatsapp, longitude, latitude },
     });
     console.log("updated Buyer==>", newBuyer);
     res.status(200).json({ data: newBuyer, message: "✅ Buyer updated" });
-    return res.status(200).json({ message: "route connected" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

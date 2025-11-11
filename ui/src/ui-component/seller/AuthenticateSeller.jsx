@@ -7,11 +7,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRegisterSellerMutation } from "./sellerQuery";
 
 export const AuthenticateSeller = () => {
-  const [userData, setUserData] = useState({ name: "", password: "", email: "" });
+  const [userData, setUserData] = useState({ name: "", password: "", email: "", phone: "", whatsapp: "" });
   const [isRegistered, setIsRegistered] = useState(false);
 
   const [registerSeller, { isLoading, error }] = useRegisterSellerMutation();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleUserRegistration = async (e) => {
     e.preventDefault();
     try {
@@ -19,7 +19,7 @@ export const AuthenticateSeller = () => {
       const register = await registerSeller(userData).unwrap();
 
       console.log("Register==>", register);
-      navigate("/seller-dashboard")
+      navigate("/seller-dashboard");
       return register;
     } catch (error) {
       console.log("Error==>", error);
@@ -68,6 +68,30 @@ export const AuthenticateSeller = () => {
                   id="password"
                   type="password"
                   placeholder="Enter a strong password"
+                  required
+                />
+              </div>
+              {/* phone */}
+              <div className="grid gap-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  value={userData.phone}
+                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                  id="phone"
+                  type="phone"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+              {/* whatsapp */}
+              <div className="grid gap-2">
+                <Label htmlFor="whatsapp">WhatsApp</Label>
+                <Input
+                  value={userData.whatsapp}
+                  onChange={(e) => setUserData({ ...userData, whatsapp: e.target.value })}
+                  id="phone"
+                  type="phone"
+                  placeholder="Enter your whatsapp business number"
                   required
                 />
               </div>

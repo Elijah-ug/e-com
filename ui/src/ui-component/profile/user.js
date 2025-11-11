@@ -37,14 +37,23 @@ export const userQuery = createApi({
 
     // login buyer
     loginBuyer: build.mutation({
-      query: (email, accessToken) => ({
+      query: (body) => ({
         url: "/login",
         method: "POST",
-        body: email,
-        headers: accessToken,
+        body,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+
+    // login buyer
+    updateBuyer: build.mutation({
+      query: (body) => ({
+        url: "/customer/update",
+        method: "PUT",
+        body,
       }),
       invalidatesTags: ["Profile"],
     }),
   }),
 });
-export const { useUserProfileQuery, useAddBuyerMutation, useLoginBuyerMutation } = userQuery;
+export const { useUserProfileQuery, useAddBuyerMutation, useLoginBuyerMutation, useUpdateBuyerMutation } = userQuery;

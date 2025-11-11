@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
   Card,
   CardAction,
@@ -13,28 +13,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { ArrowLeft } from "lucide-react";
-import { useAddBuyerMutation } from "./user";
+import { useAddBuyerMutation, useUpdateBuyerMutation, useUserProfileQuery } from "./user";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
+import { getUserGeoLocationCordinates } from "@/utils/utils";
+// diamond
 export const RegisterUser = () => {
+  const { data: user, loading, error: profErr } = useUserProfileQuery();
+  console.log("user is==>", user);
   const [isRegistering, setIsRegistering] = useState(false);
-  const [userData, setUserData] = useState({ email: "", password: "", name: "" });
+  const [position, setPosition] = useState(null);
+  const [userData, setUserData] = useState({
+    email: user?.email || "",
+    password: user?.password || "",
+    name: user?.name || "",
+    phone: user?.phone || "",
+    whatsapp: user?.whatsapp || "",
+    latitude: user?.latitude || "",
+    longitude: user?.longitude || "",
+  });
 
-  const [registerBuyer, { isLoading, error, isSuccess }] = useAddBuyerMutation();
+  const [registerBuyer, { isLoading, error: beErr, isSuccess }] = useAddBuyerMutation();
+  const [updateBuyer, { isLoading: loadUpdate, error: updateErr }] = useUpdateBuyerMutation();
 
   const navigate = useNavigate();
-
-  const handleUserRegistration = async () => {
+  useEffect(() => {
+    getUserGeoLocationCordinates()
+      .then((pos) => setPosition(pos))
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log("position==>", position);
+  const handleUserRegistration = async (e) => {
+    e.preventDefault();
+    console.log("hello");
     try {
-      if (user !== null || user !== undefined) {
-        console.log("Error: User is logged in");
+      setUserData({ ...userData, latitude: parseFloat(position.lat), longitude: parseFloat(position.lng) });
+      if (!position) {
+        console.log("No position");
+        return new Error("No position");
+      }
+      if (user) {
+        const update = await updateBuyer(userData).unwrap();
+        console.log("Updated user is==>", update);
+        toast.success("Updated user");
+        navigate("/profile");
+        return update;
       }
       const res = await registerBuyer(userData).unwrap();
-      const user = await res.buyer;
+      toast.success("Registered successfully");
       navigate("/profile");
-      console.log("created user ==>", user);
-      console.log("User data ==>", res);
-    } catch (error) {}
+      return res;
+    } catch (error) {
+      console.log("Error==>", error.message, "BE error==>", beErr);
+    }
   };
   return (
     <div className="flex justify-center py-13">
@@ -63,7 +96,7 @@ export const RegisterUser = () => {
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  value={userData.email}
+                  value={userData?.email}
                   onChange={(e) => setUserData({ ...userData, email: e.target.value })}
                   id="email"
                   type="email"
@@ -71,6 +104,7 @@ export const RegisterUser = () => {
                   required
                 />
               </div>
+              {/* pwd */}
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
@@ -82,9 +116,42 @@ export const RegisterUser = () => {
                   required
                 />
               </div>
+              {/* phone */}
+              <div className="grid gap-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input
+                  value={userData.phone}
+                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                  id="phone"
+                  type="phone"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+              {/* whatsapp */}
+              <div className="grid gap-2">
+                <Label htmlFor="whatsapp">WhatsApp</Label>
+                <Input
+                  value={userData.whatsapp}
+                  onChange={(e) => setUserData({ ...userData, whatsapp: e.target.value })}
+                  id="whatsapp"
+                  type="phone"
+                  placeholder="Enter your whatsapp business number"
+                  required
+                />
+              </div>
+              {/* latitude */}
+              {/* latitude */}
               <div className="grid gap-2">
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-400">
-                  {isLoading ? "Registering..." : "Register"}
+                  {/* {isLoading ? "Registering..." : "Register"} */}
+                  {user && loadUpdate
+                    ? "Updating User"
+                    : user && !loadUpdate
+                    ? "Update profile"
+                    : !user && isLoading
+                    ? "Registering..."
+                    : "Register"}
                 </Button>
               </div>
             </div>

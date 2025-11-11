@@ -13,7 +13,7 @@ import { verifyToken } from "../../middleware/userRoutes.js";
 customerRoute.post("/", addCustomer);
 customerRoute.get("/", getCustomers);
 customerRoute.get("/customer", verifyToken, getCustomer);
-customerRoute.put("/:customer", verifyToken, updateCustomer);
+customerRoute.put("/customer/update", verifyToken, updateCustomer);
 customerRoute.post("/login", loginBuyer);
 customerRoute.delete("/:customer", deleteCustomer);
 
