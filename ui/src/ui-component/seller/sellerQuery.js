@@ -43,6 +43,16 @@ export const sellerQuery = createApi({
       }),
       invalidatesTags: ["Seller"],
     }),
+
+    // update seller
+    updateSeller: build.mutation({
+      query: (body) => ({
+        url: "/seller/update",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Seller"],
+    }),
     // get sellers products
     getSellersProducts: build.query({
       query: () => ({
@@ -64,7 +74,7 @@ export const sellerQuery = createApi({
   }),
 });
 export const {
-  useLoginSellerMutation,
+  useLoginSellerMutation,useUpdateSellerMutation,
   useRegisterSellerMutation,
   useGetSellerQuery,
   useGetSellersProductsQuery,

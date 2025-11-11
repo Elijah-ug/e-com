@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginSellerMutation } from "./sellerQuery";
+import { toast } from "react-toastify";
 
 export const SellerLogin = () => {
   const [userData, setUserData] = useState({ name: "", password: "", email: "" });
@@ -22,6 +23,7 @@ export const SellerLogin = () => {
       localStorage.setItem("accessToken", token);
       console.log("Login Seller==>", login, token);
       navigate("/seller-dashboard/seller-home");
+      toast.success("Login successful");
       return login;
     } catch (error) {
       console.log("Error==>", error, "loginError==>", loginError);

@@ -31,6 +31,7 @@ export const RegisterUser = () => {
     whatsapp: user?.whatsapp || "",
     latitude: user?.latitude || "",
     longitude: user?.longitude || "",
+    countryCode: user?.countryCode || "",
   });
 
   const [registerBuyer, { isLoading, error: beErr, isSuccess }] = useAddBuyerMutation();
@@ -44,7 +45,7 @@ export const RegisterUser = () => {
         console.log(error);
       });
   }, []);
-  console.log("position==>", position);
+  // console.log("position==>", position);
   const handleUserRegistration = async (e) => {
     e.preventDefault();
     console.log("hello");
@@ -54,7 +55,7 @@ export const RegisterUser = () => {
         console.log("No position");
         return new Error("No position");
       }
-      if (user) {
+      if (user && position) {
         const update = await updateBuyer(userData).unwrap();
         console.log("Updated user is==>", update);
         toast.success("Updated user");
@@ -119,14 +120,28 @@ export const RegisterUser = () => {
               {/* phone */}
               <div className="grid gap-2">
                 <Label htmlFor="phone">Phone</Label>
-                <Input
-                  value={userData.phone}
-                  onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
-                  id="phone"
-                  type="phone"
-                  placeholder="Enter your phone number"
-                  required
-                />
+                <div className="flex items-center gap-5 relative">
+                  <select
+                    value={userData.countryCode}
+                    onChange={(e) => setUserData({ ...userData, countryCode: e.target.value })}
+                    className=" h-fulll absolute left-0.5 px-2 bg-gray-500 focus:outline-none"
+                  >
+                    <option className="border-gray-200" value="+256">
+                      🇺🇬 (+256)
+                    </option>
+                    <option value="+254">🇰🇪 (+254)</option>
+                    <option value="+255">🇹🇿 (+255)</option>
+                  </select>
+                  <Input
+                    value={userData?.phone}
+                    onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+                    id="phone"
+                    type="phone"
+                    placeholder="Enter your phone number "
+                    required
+                    className="pl-31"
+                  />
+                </div>
               </div>
               {/* whatsapp */}
               <div className="grid gap-2">

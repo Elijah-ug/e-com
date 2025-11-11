@@ -17,8 +17,8 @@ sellerRoute.get("/", getSellers);
 sellerRoute.post("/login", loginSeller);
 sellerRoute.get("/seller", verifyToken, getSeller);
 sellerRoute.get("/seller/products", verifyToken, sellerProducts);
-sellerRoute.get("/seller/remaining-products", verifyToken, getRemainingProducts)
-sellerRoute.put("/:seller", verifyToken, updateSeller);
+sellerRoute.get("/seller/remaining-products", verifyToken, getRemainingProducts);
+sellerRoute.put("/seller/update", verifyToken, updateSeller);
 sellerRoute.get("/seller/ordered-products", verifyToken, getOrderedProducts);
 sellerRoute.delete("/:seller", verifyToken, deleteSeller);
 

@@ -4,7 +4,12 @@ import bcrypt from "bcrypt";
 
 export const addSeller = async (req, res) => {
   try {
-    const { password, name, email, phone, whatsapp, longitude, latitude } = req.body;
+    const { password, name, email, phone, whatsapp, longitude, latitude, countryCode } = req.body;
+    const formattedPhone = countryCode.concat(phone);
+    if (formattedPhone.length !== 13) {
+      console.log("FormattedPhone is invalid ==>", formattedPhone);
+      return res.status(400).json({ error: "Invalid phone format" });
+    }
     const isAvailable = await prisma.seller.findUnique({
       where: { email },
     });
@@ -12,10 +17,10 @@ export const addSeller = async (req, res) => {
     const hashedPwd = await bcrypt.hash(password, 10);
 
     const newSeller = await prisma.seller.create({
-      data: { name, email, phone, whatsapp, longitude, latitude, password: hashedPwd },
+      data: { name, email, phone: formattedPhone, whatsapp, longitude, latitude, password: hashedPwd },
     });
-    console.log("New seller =>", safeSeller);
-    return res.status(200).json({ data: safeSeller, message: "✅ Seller created" });
+    console.log("New seller =>", newSeller);
+    return res.status(200).json({ data: newSeller, message: "✅ Seller created" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -74,11 +79,16 @@ export const updateSeller = async (req, res) => {
 
   try {
     const { password, name, email, phone, whatsapp, longitude, latitude } = req.body;
+    const formattedPhone = countryCode.concat(phone);
+    if (formattedPhone.length !== 13) {
+      console.log("FormattedPhone is invalid ==>", formattedPhone);
+      return res.status(400).json({ error: "Invalid phone format" });
+    }
     const hashedPwd = bcrypt.hash(password, 10);
 
     const seller = prisma.seller.update({
       where: { id: sellerId },
-      data: { password: hashedPwd, name, email, phone, whatsapp, longitude, latitude },
+      data: { password: hashedPwd, name, email, phone: formattedPhone, whatsapp, longitude, latitude },
     });
     return res.status(200).json({ update: seller, message: "✅ seller updated" });
   } catch (error) {

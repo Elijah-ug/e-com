@@ -8,6 +8,13 @@
 
 
 * todos
-- separate login from register for buyers
+- ✅ separate login from register for buyers
 - seller dashboard cleanup
 - buyer dashboard
+- send basic notifications
+- Authenticate via real e-mails via nodemailer
+_ Advance user notifications
+- Re-structure the folder structure
+- Remove unused/dead code
+- Remove code duplication by defining and taking advantage of re-usable components
+- cleanup the entire UI
