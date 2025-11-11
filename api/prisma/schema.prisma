@@ -8,12 +8,16 @@ datasource db {
 }
 
 model Seller {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  name     String
-  balance  Int?
-  password String    @default("pending")
-  products Product[]
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  name      String
+  balance   Int?
+  phone     String?   @unique
+  whatsapp  String?
+  password  String    @default("pending")
+  products  Product[]
+  latitude  Float?
+  longitude Float?
 }
 
 model Product {
@@ -57,7 +61,11 @@ model Buyer {
   name       String
   email      String      @unique
   password   String      @default("pending")
+  phone      String?     @unique
+  whatsapp   String?
   balance    Int?
   cartItem   CartItem[]
   orderItems OrderItem[]
+  latitude   Float?
+  longitude  Float?
 }

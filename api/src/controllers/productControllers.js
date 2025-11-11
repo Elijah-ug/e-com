@@ -69,6 +69,7 @@ export const getProduct = async (req, res) => {
     const id = parseInt(req.params.product);
     const newProduct = await prisma.product.findUnique({
       where: { id },
+      include: { owner: true },
     });
     console.log("productId ==>", id, "product==>", newProduct);
     res.status(200).json(newProduct);

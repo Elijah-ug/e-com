@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 export const addSeller = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { password, name, email, phone, whatsapp, longitude, latitude } = req.body;
     const isAvailable = await prisma.seller.findUnique({
       where: { email },
     });
@@ -12,15 +12,10 @@ export const addSeller = async (req, res) => {
     const hashedPwd = await bcrypt.hash(password, 10);
 
     const newSeller = await prisma.seller.create({
-      data: {
-        name,
-        email,
-        password: hashedPwd,
-      },
+      data: { name, email, phone, whatsapp, longitude, latitude, password: hashedPwd },
     });
-
-    console.log("New seller =>", newSeller);
-    return res.status(200).json({ data: newSeller, message: "✅ Seller created" });
+    console.log("New seller =>", safeSeller);
+    return res.status(200).json({ data: safeSeller, message: "✅ Seller created" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -75,15 +70,15 @@ export const getSeller = async (req, res) => {
 };
 
 export const updateSeller = async (req, res) => {
+  const sellerId = req.user.id;
+
   try {
-    const sellerId = parseInt(req.params.id);
-    const { name, email } = req.body;
+    const { password, name, email, phone, whatsapp, longitude, latitude } = req.body;
+    const hashedPwd = bcrypt.hash(password, 10);
+
     const seller = prisma.seller.update({
       where: { id: sellerId },
-      data: {
-        name,
-        email,
-      },
+      data: { password: hashedPwd, name, email, phone, whatsapp, longitude, latitude },
     });
     return res.status(200).json({ update: seller, message: "✅ seller updated" });
   } catch (error) {
