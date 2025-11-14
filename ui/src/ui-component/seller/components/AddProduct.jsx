@@ -14,7 +14,7 @@ export const AddProduct = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      console.log("user.data.id==>", user.data.id);
+      console.log("user.data.id==>", user);
       const formData = new FormData();
       formData.append("name", product.name);
       formData.append("description", product.description);

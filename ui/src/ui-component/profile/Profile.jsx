@@ -1,16 +1,23 @@
 // TODOS 1. unwrap docs
 
-import { useAddBuyerMutation, useLoginBuyerMutation, useUpdateBuyerMutation, useUserProfileQuery } from "./user";
+import {
+  useAddBuyerMutation,
+  useBuyerNotificationsQuery,
+  useLoginBuyerMutation,
+  useUpdateBuyerMutation,
+  useUserProfileQuery,
+} from "./user";
 import { useEffect, useState } from "react";
 
-// import { useGetCartProductsQuery } from "../cart/cartQuery";
 import { UserLogin } from "./UserLogin";
 import { UserProfile } from "./UserProfile";
 import { toast } from "react-toastify";
 import { getUserGeoLocationCordinates } from "@/utils/utils";
+import { Bell, Handshake, Mails, UsersRound, Wallet } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Profile = () => {
-  const [isLoggedIn, setIsLogged] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [position, setPosition] = useState(null);
 
   const [userData, setUserData] = useState({ email: "", password: "", name: "" });
@@ -20,6 +27,8 @@ export const Profile = () => {
 
   const { data: user, loading, error: profErr } = useUserProfileQuery();
 
+  const { data, isLoading: noteLoad, error: noteErr } = useBuyerNotificationsQuery();
+
   const handleUserLogin = async (e) => {
     e.preventDefault();
     try {
@@ -27,12 +36,10 @@ export const Profile = () => {
       const buyer = await res.user;
       const token = await res.accessToken;
 
-      localStorage.setItem("buyer", JSON.stringify(buyer));
       localStorage.setItem("token", token);
       toast.success("Login success");
-      setIsLogged(true);
-      console.log("Logged In as==>", buyer);
-      console.log("Logged In as==>", token);
+      // console.log("Logged In as==>", buyer);
+      // console.log("Logged In as==>", token);
     } catch (error) {
       console.log("Error==>", error);
     }
@@ -55,8 +62,6 @@ export const Profile = () => {
           }).unwrap();
 
           console.log("user==>", updates);
-        } else {
-          console.log("No user here==>", user);
         }
       } catch (error) {
         console.log("error==>", error);
@@ -68,15 +73,10 @@ export const Profile = () => {
     localStorage.removeItem("buyer");
     localStorage.removeItem("token");
     toast.success("Logged out");
-    setIsLogged(false);
   };
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     handleLogout();
-  //   }
-  // }, [isLoggedIn]);
+
   return (
-    <div className="px-3 sm:p-10 flex items-center justify-center">
+    <div className="px-3 sm:p-10 flex  justify-between">
       {/* <div className="flex items-center justify-center bg-gray-100"> */}
       {user ? (
         <UserProfile user={user} handleLogout={handleLogout} />
@@ -88,6 +88,43 @@ export const Profile = () => {
           userData={userData}
         />
       )}
+      <div className="relative flex flex-col gap-3  transition-all duration-300 ease-in-out ">
+        <UsersRound
+          onClick={() => setShowMenu(!showMenu)}
+          className="cursor-pointer transition-all duration-300 ease-in-out "
+        />
+
+        {showMenu && (
+          <div
+            className={`absolute top-10 right-0  flex flex-col gap-4 lg:pl-9 bg-gray-600 py-3 rounded shadow-lg z-10 w-xs ${
+              showMenu && ""
+            }`}
+          >
+            <Link to="wallet" className="flex items-center gap-3">
+              <Wallet /> <span>Wallet</span>
+            </Link>
+            <Link to="/notifications" className="relative flex items-center gap-3">
+              <Bell />
+              <span> Notifications</span>
+              <span className="flex items-center justify-center absolute text-[10px] font-semibold left-1 bottom-2 w-4 h-4 rounded-xl bg-red-500 p-0.5 text-white">
+                {data?.notificationLen}
+              </span>
+            </Link>
+
+            <Link to="messages" className="flex items-center gap-3">
+              <Mails />
+              <span> Messages</span>
+            </Link>
+
+            <Link to="new-deals" className="flex items-center gap-3">
+              <Handshake />
+
+              <span> New Deals</span>
+            </Link>
+          </div>
+        )}
+      </div>
+
       {/* </div> */}
 
       {/* <div className="" style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}> */}

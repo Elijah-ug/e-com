@@ -74,7 +74,8 @@ export const sellerQuery = createApi({
   }),
 });
 export const {
-  useLoginSellerMutation,useUpdateSellerMutation,
+  useLoginSellerMutation,
+  useUpdateSellerMutation,
   useRegisterSellerMutation,
   useGetSellerQuery,
   useGetSellersProductsQuery,

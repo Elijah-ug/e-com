@@ -8,6 +8,8 @@ import {
   deleteCustomer,
   loginBuyer,
 } from "../controllers/customerControllers.js";
+import { getAllBuyerNotifications, getBuyerNotification } from "../controllers/buyerNotifications.js";
+
 import { verifyToken } from "../../middleware/userRoutes.js";
 
 customerRoute.post("/", addCustomer);
@@ -16,5 +18,6 @@ customerRoute.get("/customer", verifyToken, getCustomer);
 customerRoute.put("/customer/update", verifyToken, updateCustomer);
 customerRoute.post("/login", loginBuyer);
 customerRoute.delete("/:customer", deleteCustomer);
-
+customerRoute.get("/notifications", verifyToken, getBuyerNotification);
+customerRoute.get("/notifications/all", getAllBuyerNotifications);
 export default customerRoute;

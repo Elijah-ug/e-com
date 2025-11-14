@@ -22,7 +22,7 @@ export const SellerProfile = () => {
             <CardTitle>Seller Profile</CardTitle>
             <CardAction>
               {" "}
-              <Link to="register-user" className=" text-sm font-medium underline text-amber-400">
+              <Link to="/register-seller" className=" text-sm font-medium underline text-amber-400">
                 Edit your profile
               </Link>
             </CardAction>

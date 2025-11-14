@@ -78,10 +78,10 @@ export const updateSeller = async (req, res) => {
   const sellerId = req.user.id;
 
   try {
-    const { password, name, email, phone, whatsapp, longitude, latitude } = req.body;
+    const { password, name, email, phone, whatsapp, longitude, latitude, countryCode } = req.body;
     const formattedPhone = countryCode.concat(phone);
     if (formattedPhone.length !== 13) {
-      console.log("FormattedPhone is invalid ==>", formattedPhone);
+      console.log("FormattedPhone is invalid ==>", formattedPhone, "code==>", countryCode);
       return res.status(400).json({ error: "Invalid phone format" });
     }
     const hashedPwd = bcrypt.hash(password, 10);
@@ -90,6 +90,7 @@ export const updateSeller = async (req, res) => {
       where: { id: sellerId },
       data: { password: hashedPwd, name, email, phone: formattedPhone, whatsapp, longitude, latitude },
     });
+    console.log("Updated user ==>", seller);
     return res.status(200).json({ update: seller, message: "✅ seller updated" });
   } catch (error) {
     console.log(error);

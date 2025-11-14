@@ -11,6 +11,7 @@
 - ✅ separate login from register for buyers
 - seller dashboard cleanup
 - buyer dashboard
+- notify user of new products according to location feeds
 - send basic notifications
 - Authenticate via real e-mails via nodemailer
 _ Advance user notifications

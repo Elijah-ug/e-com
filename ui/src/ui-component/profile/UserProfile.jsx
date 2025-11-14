@@ -31,7 +31,7 @@ export const UserProfile = ({ user, handleLogout }) => {
         <p className="font-bold ">New York, USA</p>
       </div>
 
-       <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3">
         <strong className="text-sm text-gray-500">Purchased Products:</strong>
         <p className="font-bold ">0</p>
       </div>

@@ -20,6 +20,8 @@ import { ToastContainer } from "react-toastify";
 import { RegisterUser } from "./ui-component/profile/RegisterUser";
 import { Wallet } from "./ui-component/seller/components/Wallet";
 import { AddProduct } from "./ui-component/seller/components/AddProduct";
+import { Notifications } from "./ui-component/profile/Notifications";
+import { NearProd } from "./ui-component/profile/NearProd";
 
 export const App = () => {
   return (
@@ -31,7 +33,11 @@ export const App = () => {
         <div className=" ">
           <Routes>
             <Route path="/" element={<Home />} />
+
             <Route path="profile" element={<Profile />} />
+            <Route path="notifications" element={<Notifications />} />
+            {/* <Route path="/:prod" element={<NearProd />} /> */}
+
             <Route path="/:product" element={<ProductDetails />} />
             <Route path="cart" element={<Cart />} />
             <Route path="seller-dashboard" element={<SellerDashboard />}>

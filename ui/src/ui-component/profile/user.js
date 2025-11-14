@@ -54,6 +54,20 @@ export const userQuery = createApi({
       }),
       invalidatesTags: ["Profile"],
     }),
+    // buyer notifications
+    buyerNotifications: build.query({
+      query: () => ({
+        url: "/notifications",
+        method: "GET",
+      }),
+      providesTags: ["Profile"],
+    }),
   }),
 });
-export const { useUserProfileQuery, useAddBuyerMutation, useLoginBuyerMutation, useUpdateBuyerMutation } = userQuery;
+export const {
+  useUserProfileQuery,
+  useAddBuyerMutation,
+  useLoginBuyerMutation,
+  useUpdateBuyerMutation,
+  useBuyerNotificationsQuery,
+} = userQuery;

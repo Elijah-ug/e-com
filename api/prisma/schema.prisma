@@ -21,19 +21,20 @@ model Seller {
 }
 
 model Product {
-  id          Int         @id @default(autoincrement())
-  name        String
-  image       String
-  description String?
-  price       Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime?
-  owner       Seller      @relation(fields: [ownerId], references: [id])
-  ownerId     Int
-  isOrdered   Boolean     @default(false)
-  isBought    Boolean     @default(false)
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
+  id                Int                 @id @default(autoincrement())
+  name              String
+  image             String
+  description       String?
+  price             Int
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime?
+  owner             Seller              @relation(fields: [ownerId], references: [id])
+  ownerId           Int
+  isOrdered         Boolean             @default(false)
+  isBought          Boolean             @default(false)
+  cartItems         CartItem[]
+  orderItems        OrderItem[]
+  buyerNotification BuyerNotification[]
 }
 
 model CartItem {
@@ -57,15 +58,29 @@ model OrderItem {
 }
 
 model Buyer {
-  id         Int         @id @default(autoincrement())
-  name       String
-  email      String      @unique
-  password   String      @default("pending")
-  phone      String?     @unique
-  whatsapp   String?
-  balance    Int?
-  cartItem   CartItem[]
-  orderItems OrderItem[]
-  latitude   Float?
-  longitude  Float?
+  id                Int                 @id @default(autoincrement())
+  name              String
+  email             String              @unique
+  password          String              @default("pending")
+  phone             String?             @unique
+  whatsapp          String?
+  balance           Int?
+  latitude          Float?
+  longitude         Float?
+  cartItem          CartItem[]
+  orderItems        OrderItem[]
+  buyerNotification BuyerNotification[]
+}
+
+model BuyerNotification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  meta      Json
+
+  user    Buyer   @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }

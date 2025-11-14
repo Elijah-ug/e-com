@@ -1,10 +1,11 @@
 import { prisma } from "../../prisma/client.js";
+import { notificationQueue } from "../jobs/notificationQueue.js";
 export const addProduct = async (req, res) => {
-  console.log("Hello world");
+  const ownerId = req.user.id;
   try {
-    const { name, description, price, ownerId } = req.body;
+    const { name, description, price } = req.body;
 
-    const products = await prisma.product.create({
+    const product = await prisma.product.create({
       data: {
         name,
         image: req.uploadedFileUrl,
@@ -18,7 +19,19 @@ export const addProduct = async (req, res) => {
         owner: true,
       },
     });
-    return res.status(200).json(products);
+    // get the owner's lat and lon
+    const owner = await prisma.seller.findUnique({
+      where: { id: ownerId },
+    });
+    console.log("Owner or creator==>", owner);
+    // create a job to the que
+    await notificationQueue.add("notifications", {
+      productId: product.id,
+      sellerLat: owner.latitude,
+      sellerLon: owner.longitude,
+    });
+    console.log("added a notificationQue", product.id, owner.latitude, owner.longitude);
+    return res.status(200).json(product);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -29,7 +42,7 @@ export const getProducts = async (req, res) => {
   try {
     const products = await prisma.product.findMany();
     const orderedProducts = products.filter((prod) => prod.ownerId);
-    console.log("orderedProducts==>", orderedProducts);
+    // console.log("orderedProducts==>", orderedProducts);
 
     res.status(200).json(products);
   } catch (error) {
@@ -71,7 +84,7 @@ export const getProduct = async (req, res) => {
       where: { id },
       include: { owner: true },
     });
-    console.log("productId ==>", id, "product==>", newProduct);
+    // console.log("productId ==>", id, "product==>", newProduct);
     res.status(200).json(newProduct);
   } catch (error) {
     console.log(error);

@@ -4,13 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterSellerMutation, useUpdateSellerMutation } from "./sellerQuery";
-import { useUserProfileQuery } from "../profile/user";
+import { useGetSellerQuery, useRegisterSellerMutation, useUpdateSellerMutation } from "./sellerQuery";
 import { getUserGeoLocationCordinates } from "@/utils/utils";
 import { toast } from "react-toastify";
 
 export const AuthenticateSeller = () => {
-  const { data: user, loading, error: profErr } = useUserProfileQuery();
+  const { data: user, loading, error: profErr } = useGetSellerQuery();
   const [position, setPosition] = useState(null);
 
   const [userData, setUserData] = useState({
@@ -21,7 +20,7 @@ export const AuthenticateSeller = () => {
     whatsapp: user?.whatsapp || "",
     latitude: user?.latitude || "",
     longitude: user?.longitude || "",
-    countryCode: user?.countryCode || "",
+    countryCode: user?.countryCode || "+256",
   });
   const [isRegistered, setIsRegistered] = useState(false);
 
@@ -29,7 +28,7 @@ export const AuthenticateSeller = () => {
   const [updateSeller, { isLoading: loadUpdate, error: updateErr }] = useUpdateSellerMutation();
 
   const navigate = useNavigate();
-
+  console.log("user==>", user);
   useEffect(() => {
     getUserGeoLocationCordinates()
       .then((pos) => setPosition(pos))
@@ -37,26 +36,27 @@ export const AuthenticateSeller = () => {
         console.log(error);
       });
   }, []);
-  // console.log("position here==>", position);
+  console.log("position here==>", position);
 
   const handleUserRegistration = async (e) => {
     e.preventDefault();
 
     try {
-      setUserData({ ...userData, latitude: parseFloat(position.lat), longitude: parseFloat(position.lng) });
       if (!position) {
         console.log("No position");
         return new Error("No position");
       }
-      if (user) {
-        const update = await updateSeller(userData).unwrap();
+      const updateData = { ...userData, latitude: parseFloat(position.lat), longitude: parseFloat(position.lng) };
+      if (user && position) {
+        const update = await updateSeller(updateData).unwrap();
         console.log("Updated user is==>", update);
+        console.log("userData is==>", updateData);
         toast.success("Updated user");
         navigate("/seller-dashboard");
         return update;
       }
 
-      const register = await registerSeller(userData).unwrap();
+      const register = await registerSeller(updateData).unwrap();
       toast.success("Seller registered");
       console.log("Register==>", register);
       navigate("/seller-dashboard");
