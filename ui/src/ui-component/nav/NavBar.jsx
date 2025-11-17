@@ -5,8 +5,10 @@ import { FaUser } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { MdSearch } from "react-icons/md";
+import { useState } from "react";
+import { SearchProduct } from "@/utils/SearchProduct";
 
-export const NavBar = () => {
+export const NavBar = ({ onSearch }) => {
   const buyerId = JSON.parse(localStorage.getItem("buyer"))?.id;
   const { data: cartItems, error: cartErr, isLoading: cartLoad } = useGetCartProductsQuery();
   const cartLen = cartItems?.totalCartProducts;
@@ -14,15 +16,11 @@ export const NavBar = () => {
   return (
     <div className="z-100 flex items-center justify-between text-sm bg-gray-800 px-10 py-3 text-gray-200 shadow-gray-400 shadow-md hover:shadow-gray-500 hover:shadow-lg transition-all duration-200 ">
       <div className="font-bold">ShopEase</div>
-      <div className="flex items-center relative ">
-        <Input type="text" placeholder="Search Products" className="rounded-xs pl-10 focus:outline-none" />
-        <Button className="bg-blue-400 rounded-xs">Search</Button>
-        <MdSearch className="text-2xl absolute left-1" />
-      </div>
+      <SearchProduct onSearch={onSearch} />
       <div className="flex items-center gap-15">
         <NavLink to="/">Home</NavLink>
         <NavLink to="seller-dashboard">Your Dashboard</NavLink>
-        <NavLink to="profile" className="flex items-center gap-2 ">
+        <NavLink to="buyer" className="flex items-center gap-2 ">
           <FaUser />
           <span>Account</span>
         </NavLink>

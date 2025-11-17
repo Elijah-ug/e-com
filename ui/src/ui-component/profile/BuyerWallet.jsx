@@ -1,5 +1,5 @@
 import React from "react";
 
-export const Wallet = () => {
+export const BuyerWallet = () => {
   return <div>Wallet</div>;
 };

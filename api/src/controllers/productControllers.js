@@ -40,11 +40,36 @@ export const addProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await prisma.product.findMany();
-    const orderedProducts = products.filter((prod) => prod.ownerId);
-    // console.log("orderedProducts==>", orderedProducts);
+    // get query params {default: page=1, limit=10}
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const products = await prisma.product.findMany({
+      skip,
+      take: limit,
+      where: { ownerId: { gt: 0 } },
+      orderBy: { createdAt: "asc" },
+    });
+    console.log("paginated products==>", products);
+    // count total for frontend pagination UI
+    const total = await prisma.product.count({
+      where: { ownerId: { gt: 0 } },
+    });
+    const pages = Math.ceil(total / limit);
+    // nav links
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.path}`;
+    const nextPage = `${baseUrl}?page=${page + 1}&limit=${limit}`;
+    const prevPage = page > 1 ? `${baseUrl}?page=${page - 1}&limit=${limit}` : null;
 
-    res.status(200).json(products);
+    res.status(200).json({
+      currentPage: page, 
+      lim: limit,
+      totalProducts: total,
+      totalPages: pages,
+      next: nextPage,
+      prev: prevPage,
+      products,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });

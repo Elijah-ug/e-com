@@ -12,7 +12,7 @@ export const User = () => {
   console.log("Seller is==>", buyer);
   return (
     <div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-end justify-end gap-2">
         <span>Hello</span>{" "}
         <span className="font-semibold ">{seller ? seller?.name : buyer ? buyer?.name : "User"},</span>
         {seller === undefined ? (

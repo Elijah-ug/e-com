@@ -1,19 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AvailableProducts } from "../products/AvailableProducts";
+import { Sorter } from "./Sorter";
 
-export const Home = () => {
-  const products = async () => {
-    const res = await fetch(import.meta.env.VITE_PRODUCTS_ENDPOINT);
-    const data = await res.json();
-    console.log("data available =>", data);
-  };
-  useEffect(() => {
-    products();
-  }, []);
+export const Home = ({ searchTerm }) => {
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="px-3 sm:p-10 min-h-screen">
-      <AvailableProducts />
+    <div   className="flex">
+      <div className={showMenu ? "w-64 bg-gray-500 transition-all duration-200 ease-in-out" : "w-16 bg-gray-500 transition-all duration-200 ease-in-out"}>
+        <Sorter showMenu={showMenu} setShowMenu={setShowMenu} />
+      </div>
+      <div className="px-3 sm:px-10 py-3  flex-1 transition-all duration-200 ease-in-out">
+        <AvailableProducts searchTerm={searchTerm} />
+      </div>
     </div>
   );
 };

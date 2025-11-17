@@ -19,23 +19,38 @@ import { SellerProducts } from "./ui-component/seller/components/SellerProducts"
 import { ToastContainer } from "react-toastify";
 import { RegisterUser } from "./ui-component/profile/RegisterUser";
 import { Wallet } from "./ui-component/seller/components/Wallet";
+import { BuyerWallet } from "./ui-component/profile/BuyerWallet";
+
 import { AddProduct } from "./ui-component/seller/components/AddProduct";
 import { Notifications } from "./ui-component/profile/Notifications";
-import { NearProd } from "./ui-component/profile/NearProd";
+import { Messages } from "./ui-component/profile/Messages";
+import { NewDeals } from "./ui-component/profile/NewDeals";
+import { UserLogin } from "./ui-component/profile/UserLogin";
+import { UserProfile } from "./ui-component/profile/UserProfile";
+import { useState } from "react";
 
 export const App = () => {
+    const [searchTerm, setSearchTerm] = useState("");
+  
   return (
     <div className="">
       <div>
         <div className="z-10">
-          <NavBar />
+          <NavBar onSearch={setSearchTerm} />
         </div>
         <div className=" ">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home searchTerm={searchTerm} />} />
 
-            <Route path="profile" element={<Profile />} />
-            <Route path="notifications" element={<Notifications />} />
+            <Route path="buyer" element={<Profile />}>
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="messages" element={<Messages />} />
+              <Route path="new-deals" element={<NewDeals />} />
+              <Route path="buyer-wallet" element={<BuyerWallet />} />
+              <Route path="buyer-login" element={<UserLogin />} />
+              <Route path="profile" element={<UserProfile />} />
+            </Route>
+
             {/* <Route path="/:prod" element={<NearProd />} /> */}
 
             <Route path="/:product" element={<ProductDetails />} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardAction,
@@ -14,10 +14,30 @@ import { Label } from "@/components/ui/label";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLoginBuyerMutation } from "./user";
 
-export const UserLogin = ({ handleUserLogin, setUserData, userData, isLoading }) => {
+export const UserLogin = () => {
+  console.log("Hello world");
+  const [userData, setUserData] = useState({ email: "", password: "", name: "" });
+  const [buyerLogin, { isLoading, error, isSuccess }] = useLoginBuyerMutation();
+
+  const handleUserLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await buyerLogin(userData).unwrap();
+      const buyer = await res.user;
+      const token = await res.accessToken;
+
+      localStorage.setItem("token", token);
+      toast.success("Login success");
+      // console.log("Logged In as==>", buyer);
+      // console.log("Logged In as==>", token);
+    } catch (error) {
+      console.log("Error==>", error);
+    }
+  };
   return (
-    <div>
+    <div className="flex justify-center py-5">
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>

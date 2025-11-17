@@ -1,4 +1,4 @@
-import { uploadClient } from "../utils/utils.js";
+aimport { uploadClient } from "../utils/utils.js";
 
 export const uploadToUploadCare = async (req, res, next) => {
   try {

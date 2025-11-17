@@ -18,7 +18,7 @@ export const productsApi = createApi({
   endpoints: (build) => ({
     // get all products
     getProducts: build.query({
-      query: () => "",
+      query: ({ page = 1, limit = 10 }) => `?page=${page}&limit=${limit}`,
       providesTags: ["Product"],
     }),
     // get single product
@@ -41,7 +41,6 @@ export const productsApi = createApi({
       },
       invalidatesTags: (result, error, id) => [{ type: "Product", id }],
     }),
-    
   }),
 });
 export const { useGetProductsQuery, useGetProductByIdQuery, useSearchProductQuery, useAddProductMutation } =

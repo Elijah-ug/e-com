@@ -30,7 +30,7 @@ export const SellerLogin = () => {
     }
   };
   return (
-    <div>
+    <div className="flex justify-center py-5">
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
           <CardTitle>Seller Login</CardTitle>

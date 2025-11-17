@@ -10,6 +10,7 @@ export const Notifications = () => {
   //   http://localhost:5173/http://localhost:5000/api/products/78
   return (
     <div className="h-screen px-3 lg:px-10 py-5 sm:py-11">
+      <h3>User notifications</h3>
       {data ? (
         <div className="grid gap-3">
           <h3 className="text-center text-lg font-semibold">You have {data.notificationLen} notifications </h3>

@@ -15,7 +15,7 @@ export const SellerProfile = () => {
   };
   console.log("Data is here==>", data);
   return (
-    <div>
+    <div className="flex justify-center py-5">
       {data && (
         <Card className="w-full max-w-md bg-gray-500 border-none font-semibold text-white rounded-sm">
           <CardHeader>

@@ -39,7 +39,7 @@ export const AddProduct = () => {
     <div className="flex justify-center py-5">
       <Card className="w-md bg-gray-500 border-none rounded-sm text-white">
         <CardHeader>
-          <CardTitle>You're registering as a seller</CardTitle>
+          <CardTitle>You're adding a product to your store</CardTitle>
           <CardAction className="flex items-center gap-1"></CardAction>
         </CardHeader>
         <CardContent>
