@@ -1,4 +1,4 @@
-aimport { uploadClient } from "../utils/utils.js";
+import { uploadClient } from "../utils/utils.js";
 
 export const uploadToUploadCare = async (req, res, next) => {
   try {
@@ -8,7 +8,11 @@ export const uploadToUploadCare = async (req, res, next) => {
     }
     const fileBuffer = req.file.buffer;
     const fileName = req.file.originalname;
-    const result = await uploadClient.uploadFile(fileBuffer, { fileName, contentType: req.file.mimetype, store: true });
+    const result = await uploadClient.uploadFile(fileBuffer, {
+      fileName,
+      contentType: req.file.mimetype,
+      store: true,
+    });
     console.log("Uploaded file==>", result);
     // attach file URL to request so next middleware can use it
     const resUrl = `https://nal5eytndp.ucarecd.net/${result.uuid}/${result.name}`;

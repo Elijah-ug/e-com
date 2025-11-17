@@ -10,7 +10,7 @@ export const Home = ({ searchTerm }) => {
       <div className={showMenu ? "w-64 bg-gray-500 transition-all duration-200 ease-in-out" : "w-16 bg-gray-500 transition-all duration-200 ease-in-out"}>
         <Sorter showMenu={showMenu} setShowMenu={setShowMenu} />
       </div>
-      <div className="px-3 sm:px-10 py-3  flex-1 transition-all duration-200 ease-in-out">
+      <div className="px-3 sm:p-10  flex-1 transition-all duration-200 ease-in-out">
         <AvailableProducts searchTerm={searchTerm} />
       </div>
     </div>
